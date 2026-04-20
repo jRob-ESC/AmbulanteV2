@@ -1,21 +1,19 @@
-import React, { useState } from 'react';
-import { LoginRequest } from '../types/auth';
 import {
   View,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Image,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import {
-  Text,
-  TextInput,
-  Button,
-  Checkbox,
-  useTheme
-} from 'react-native-paper';
+import { Text, useTheme } from 'react-native-paper';
+
+import { useLogin } from '../hooks';
+import { LoginHeader } from '../components';
+import { PasswordInput } from '../components';
+import { RememberCheckbox } from '../components';
+import { LoginRequest } from '../types/auth';
+import { AppTextInput, AppButton } from '@/shared/components';
 
 interface LoginScreenProps {
   onLogin?: (data: LoginRequest) => void;
@@ -29,23 +27,15 @@ export function LoginScreen({
   onRegister,
 }: LoginScreenProps) {
   const { colors } = useTheme();
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const [showPassword, setShowPassword] = useState(false);
-  const [rememberCredentials, setRememberCredentials] = useState(false);
+  const login = useLogin();
 
   const handleLogin = () => {
-    const data: LoginRequest = {
-      email,
-      password,
-    };
-    if (data.email.trim() === '' || data.password.trim() === '') {
+    if (!login.canSubmit) {
       console.warn('Por favor, completa todos los campos.');
       return;
     }
-    onLogin?.(data);
+
+    onLogin?.(login.buildRequest());
   };
 
   return (
@@ -53,95 +43,56 @@ export function LoginScreen({
       style={styles.keyboardAvoid}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={[styles.logoContainer, { backgroundColor: colors.background}]}>
-          <Image
-            source={require('@/assets/images/lion-icon.png')}
-            style={styles.logo}
-            resizeMode="contain"
-          />
-          <Text style={styles.appName}>LEON AMBULANTE</Text>
-        </View>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <LoginHeader colors={colors} />
 
-        <View style={styles.formContainer}>
-
-          <TextInput
+        <View style={styles.form}>
+          <AppTextInput
             label="E-mail"
-            value={email}
-            onChangeText={setEmail}
+            value={login.email}
+            onChangeText={login.setEmail}
             placeholder="Ingresa tu e-mail institucional"
             keyboardType="email-address"
             autoCapitalize="none"
             autoComplete="email"
-            mode="outlined"
-            style={[styles.input, { backgroundColor: colors.surface }]}
-            outlineStyle={[styles.inputOutline, { borderColor: colors.outlineVariant }]}
-            theme={{ colors: { primary: colors.primary } }}
           />
 
-          <TextInput
-            label="Contraseña"
-            value={password}
-            onChangeText={setPassword}
-            placeholder="Ingresa tu contraseña"
-            secureTextEntry={!showPassword}
-            autoCapitalize="none"
-            autoComplete="password"
-            mode="outlined"
-            style={[styles.input, { backgroundColor: colors.surface }]}
-            outlineStyle={[styles.inputOutline, { borderColor: colors.outlineVariant }]}
-            theme={{ colors: { primary: colors.primary } }}
-            right={
-              <TextInput.Icon
-                icon={showPassword ? 'eye-off' : 'eye'}
-                onPress={() => setShowPassword(prev => !prev)}
-                color={colors.secondary}
-              />
-            }
+          <PasswordInput
+            value={login.password}
+            onChange={login.setPassword}
+            show={login.showPassword}
+            onToggle={login.togglePassword}
           />
 
-          <TouchableOpacity
-            onPress={onForgotPassword}
-            style={styles.forgotContainer}
-            activeOpacity={0.7}
-          >
-            <Text style={[styles.forgotText, { color: colors.primary }]}>¿Olvidaste tu contraseña?</Text>
+          <TouchableOpacity onPress={onForgotPassword}>
+            <Text style={{ color: colors.primary }}>
+              ¿Olvidaste tu contraseña?
+            </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.rememberRow}
-            onPress={() => setRememberCredentials(prev => !prev)}
-            activeOpacity={0.7}
-          >
-            <Checkbox
-              status={rememberCredentials ? 'checked' : 'unchecked'}
-              onPress={() => setRememberCredentials(prev => !prev)}
-              color={colors.primary}
-            />
-            <Text style={styles.rememberText}>Recordar credenciales</Text>
-          </TouchableOpacity>
+          <RememberCheckbox
+            checked={login.rememberCredentials}
+            onToggle={login.toggleRemember}
+            colors={colors}
+          />
 
-          <Button
-            mode="contained"
+          <AppButton
             onPress={handleLogin}
-            style={styles.loginButton}
-            contentStyle={styles.loginButtonContent}
-            labelStyle={styles.loginButtonLabel}
-            buttonColor={colors.primary}
+            disabled={!login.canSubmit}
+            style={styles.button}
           >
             Ingresar
-          </Button>
+          </AppButton>
 
-          <View style={styles.registerRow}>
-            <Text style={[styles.registerText, { color: colors.secondary }]}>¿No tienes cuenta? </Text>
-            <TouchableOpacity onPress={onRegister} activeOpacity={0.7}>
-              <Text style={[styles.registerLink, { color: colors.primary }]}>Regístrate aquí.</Text>
+          <View style={styles.loginRow}>
+            <Text>¿No tienes cuenta? </Text>
+            <TouchableOpacity onPress={onRegister}>
+              <Text style={{ color: colors.primary }}>
+                Registrate Aqui.
+              </Text>
             </TouchableOpacity>
           </View>
+
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -149,91 +100,21 @@ export function LoginScreen({
 }
 
 const styles = StyleSheet.create({
-  keyboardAvoid: {
-    flex: 1,
-  },
+  keyboardAvoid: { flex: 1 },
   scrollContent: {
     flexGrow: 1,
-    paddingHorizontal: 28,
-    paddingTop: 48,
-    paddingBottom: 40,
+    padding: 28,
     justifyContent: 'center',
   },
-
-  // Logo
-  logoContainer: {
-    alignItems: 'center',
-    marginBottom: 36,
-  },
-  logo: {
-    width: 180,
-    height: 180,
-  },
-  appName: {
-    fontSize: 22,
-    fontWeight: '800',
-    letterSpacing: 2,
-    marginTop: 12,
-  },
-
-  // Formulario
-  formContainer: {
+  form: {
     width: '100%',
   },
-  input: {
-    marginBottom: 12,
-  },
-  inputOutline: {
-    borderRadius: 8,
-  },
-
-  // ¿Olvidaste tu contraseña?
-  forgotContainer: {
-    alignSelf: 'flex-start',
-    marginBottom: 12,
-  },
-  forgotText: {
-    fontSize: 13,
-    fontWeight: '500',
-  },
-
-  // Recordar credenciales
-  rememberRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  rememberText: {
-    fontSize: 14,
-    marginLeft: 4,
-  },
-
-  // Botón ingresar
-  loginButton: {
-    borderRadius: 24,
-    marginBottom: 24,
-    elevation: 2,
-  },
-  loginButtonContent: {
-    paddingVertical: 6,
-  },
-  loginButtonLabel: {
-    fontSize: 16,
-    fontWeight: '700',
-    letterSpacing: 0.5,
-  },
-
-  // ¿No tienes cuenta?
-  registerRow: {
+    loginRow: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  registerText: {
-    fontSize: 13,
-  },
-  registerLink: {
-    fontSize: 13,
-    fontWeight: '600',
-  },
+  button: {
+    marginBottom: 24,
+  }
 });
