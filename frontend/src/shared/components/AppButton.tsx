@@ -20,6 +20,7 @@ type Props = {
 export function AppButton({
     variant = "primary",
     style,
+    disabled,
     ...props
 }: Props) {
     const { colors } = useTheme();
@@ -27,18 +28,30 @@ export function AppButton({
     const themeKey = variantColorMap[variant];
     const buttonColor = colors[themeKey];
 
+    const mode =
+        variant === 'secondary' ? 'outlined' : 'contained';
+
     return (
         <Button
             {...props}
-            mode="contained"
-            buttonColor={buttonColor}
+            mode={mode}
+            buttonColor={variant !== 'secondary' ? buttonColor : undefined}
+            textColor={variant === 'secondary' ? colors.primary : undefined}
+            disabled={variant === 'disabled' || disabled}
             style={[
                 {
-                    borderRadius: 12,
-                    paddingVertical: 6,
+                    borderRadius: 10,
+                    alignSelf: "center",
                 },
                 style,
             ]}
+            contentStyle={{
+                paddingVertical: 2,
+            }}
+            labelStyle={{
+                fontWeight: 700,
+                fontSize: 16,
+            }}
         />
     );
 }
