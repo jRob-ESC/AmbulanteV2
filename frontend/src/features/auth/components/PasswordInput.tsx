@@ -4,6 +4,7 @@ import { AppTextInput } from '@/shared/components';
 interface PasswordInputProps {
   value: string;
   onChange: (text: string) => void;
+  onBlur?: () => void;
   show: boolean;
   onToggle: () => void;
   label?: string;
@@ -14,6 +15,7 @@ interface PasswordInputProps {
 export function PasswordInput({
   value,
   onChange,
+  onBlur,
   show,
   onToggle,
   label = 'Contraseña',
@@ -27,6 +29,7 @@ export function PasswordInput({
       label={label}
       value={value}
       onChangeText={onChange}
+      onBlur={onBlur}
       placeholder={placeholder}
       secureTextEntry={!show}
       errorMessage={errorMessage}

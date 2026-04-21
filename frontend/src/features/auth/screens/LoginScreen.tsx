@@ -7,12 +7,13 @@ import {
   Platform,
 } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
+import { Controller } from 'react-hook-form';
 
 import { useLogin } from '../hooks';
 import { LoginHeader } from '../components';
 import { PasswordInput } from '../components';
 import { RememberCheckbox } from '../components';
-import { LoginRequest } from '../types/auth';
+import { LoginRequest } from '../schemas';
 import { AppTextInput, AppButton } from '@/shared/components';
 
 interface LoginScreenProps {
@@ -22,21 +23,11 @@ interface LoginScreenProps {
 }
 
 export function LoginScreen({
-  onLogin,
   onForgotPassword,
   onRegister,
 }: LoginScreenProps) {
   const { colors } = useTheme();
   const login = useLogin();
-
-  const handleLogin = () => {
-    if (!login.canSubmit) {
-      console.warn('Por favor, completa todos los campos.');
-      return;
-    }
-
-    onLogin?.(login.buildRequest());
-  };
 
   return (
     <KeyboardAvoidingView
@@ -47,21 +38,38 @@ export function LoginScreen({
         <LoginHeader colors={colors} />
 
         <View style={styles.form}>
-          <AppTextInput
-            label="E-mail"
-            value={login.email}
-            onChangeText={login.setEmail}
-            placeholder="Ingresa tu e-mail institucional"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoComplete="email"
+          
+          <Controller 
+            control={login.control}
+            name="email"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <AppTextInput
+                label="E-mail"
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                placeholder="Ingresa tu e-mail institucional"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoComplete="email"
+                errorMessage={login.errors.email?.message}
+              />
+            )}
           />
 
-          <PasswordInput
-            value={login.password}
-            onChange={login.setPassword}
-            show={login.showPassword}
-            onToggle={login.togglePassword}
+          <Controller
+            control={login.control}
+            name="password"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <PasswordInput
+                value={value}
+                onChange={onChange}
+                onBlur={onBlur}
+                show={login.showPassword}
+                onToggle={login.togglePassword}
+                errorMessage={login.errors.password?.message}
+              />
+            )}
           />
 
           <TouchableOpacity onPress={onForgotPassword}>
@@ -77,8 +85,8 @@ export function LoginScreen({
           />
 
           <AppButton
-            onPress={handleLogin}
-            disabled={!login.canSubmit}
+            onPress={login.onSubmit}
+            disabled={!login.isValid || login.isLoading}
             style={styles.button}
           >
             Ingresar

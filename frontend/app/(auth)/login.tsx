@@ -1,7 +1,7 @@
 import { router } from "expo-router";
 import { LoginScreen } from "@/features/auth/screens/LoginScreen";
 import { login } from "@/features/auth/services/authService";
-import { useAuthStore } from "@/features/auth/store/authStore";
+import { useAuthStore } from "@/features/auth/stores/authStore";
 import { btoa } from "abab";
 
 export default function Login() {
