@@ -11,7 +11,9 @@ export async function login(email: string, password: string) {
     });
 
     if (!response.ok) {
-        throw new Error('Credenciales incorrectas');
+        const error: any = new Error('Credenciales incorrectas');
+        error.status = response.status;
+        throw error;
     }
 
     return response.json();
@@ -27,6 +29,8 @@ export async function register(firstName: string, lastName: string, email: strin
     });
 
     if (!response.ok) {
-        throw new Error('Error al registrarse');
+        const error: any = new Error('Error al registrarse');
+        error.status = response.status;
+        throw error;
     }
 }

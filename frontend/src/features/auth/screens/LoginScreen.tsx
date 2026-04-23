@@ -31,7 +31,7 @@ export function LoginScreen({
 
   return (
     <KeyboardAvoidingView
-      style={styles.keyboardAvoid}
+      style={[styles.keyboardAvoid, {backgroundColor: colors.background }]}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -108,7 +108,9 @@ export function LoginScreen({
 }
 
 const styles = StyleSheet.create({
-  keyboardAvoid: { flex: 1 },
+  keyboardAvoid: { 
+    flex: 1,
+  },
   scrollContent: {
     flexGrow: 1,
     padding: 28,
