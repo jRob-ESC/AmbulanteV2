@@ -9,6 +9,7 @@ export function useLogin() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberCredentials, setRememberCredentials] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null)
 
   const { setAuth, setSavedCredentials, savedEmail, savedPassword } = useAuthStore();
 
@@ -33,8 +34,12 @@ const onSubmit = handleSubmit(async (data: LoginRequest) => {
             rememberCredentials ? data.email : null,
             rememberCredentials ? data.password : null,
         );
-    } catch (error) {
+    } catch (error: any) {
+      if ([401, 404].includes(error.status)) {
+        setServerError("El correo o la contrasena introducidos son incorrectos")
+      } else {
         console.error('Error al iniciar sesión:', error);
+      }
     } finally {
         setIsLoading(false);
     }
@@ -44,6 +49,7 @@ const onSubmit = handleSubmit(async (data: LoginRequest) => {
     control,
     onSubmit,
     errors,
+    serverError,
     isValid,
     isLoading,
     showPassword,

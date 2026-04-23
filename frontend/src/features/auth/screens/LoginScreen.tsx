@@ -84,6 +84,12 @@ export function LoginScreen({
             colors={colors}
           />
 
+          {login.serverError && (
+            <Text style={{ color: colors.error, textAlign: 'center', marginBottom: 12 }}>
+              {login.serverError}
+            </Text>
+          )}
+
           <AppButton
             onPress={login.onSubmit}
             disabled={!login.isValid || login.isLoading}
