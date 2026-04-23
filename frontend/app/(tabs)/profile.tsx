@@ -1,5 +1,5 @@
 import { Button } from "react-native-paper";
-import { useAuthStore } from "@/features/auth/store/authStore";
+import { useAuthStore } from "@/features/auth/stores/authStore";
 import { router } from "expo-router";
 
 export default function ProfileScreen() {

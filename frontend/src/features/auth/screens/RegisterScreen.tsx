@@ -7,32 +7,19 @@ import {
   Platform,
 } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
+import { Controller } from 'react-hook-form';
 
 import { useRegister } from '../hooks';
 import { PasswordInput, LoginHeader } from '../components';
-import { RegisterRequest } from '../types';
 import { AppTextInput, AppButton } from '@/shared/components';
 
 interface RegisterScreenProps {
-  onRegister?: (data: RegisterRequest) => void;
   onLogin?: () => void;
 }
 
-export function RegisterScreen({
-  onRegister,
-  onLogin,
-}: RegisterScreenProps) {
+export function RegisterScreen({ onLogin }: RegisterScreenProps) {
   const { colors } = useTheme();
   const register = useRegister();
-
-  const handleRegister = () => {
-    if (!register.canSubmit) {
-      console.warn('Completa todos los campos');
-      return;
-    }
-
-    onRegister?.(register.buildRequest());
-  };
 
   return (
     <KeyboardAvoidingView
@@ -52,51 +39,101 @@ export function RegisterScreen({
         </Text>
 
         <View style={styles.form}>
-          <AppTextInput
-            label="Nombre"
-            value={register.firstName}
-            onChangeText={register.setFirstName}
-            autoCapitalize="words"
+
+          <Controller
+            control={register.control}
+            name="firstName"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <AppTextInput
+                label="Nombre"
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                placeholder="Ingresa tu nombre"
+                autoCapitalize="words"
+                errorMessage={register.errors.firstName?.message}
+              />
+            )}
           />
 
-          <AppTextInput
-            label="Apellido"
-            value={register.lastName}
-            onChangeText={register.setLastName}
-            autoCapitalize="words"
+          <Controller
+            control={register.control}
+            name="lastName"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <AppTextInput
+                label="Apellido"
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                placeholder="Ingresa tu apellido"
+                autoCapitalize="words"
+                errorMessage={register.errors.lastName?.message}
+              />
+            )}
           />
 
-          <AppTextInput
-            label="E-mail"
-            value={register.email}
-            onChangeText={register.setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
+          <Controller
+            control={register.control}
+            name="email"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <AppTextInput
+                label="E-mail"
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                placeholder="Ingresa tu e-mail institucional"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                errorMessage={register.errors.email?.message}
+              />
+            )}
           />
 
-          <PasswordInput
-            value={register.password}
-            onChange={register.setPassword}
-            show={register.showPassword}
-            onToggle={register.togglePassword}
+          <Controller
+            control={register.control}
+            name="password"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <PasswordInput
+                value={value}
+                onChange={onChange}
+                onBlur={onBlur}
+                show={register.showPassword}
+                onToggle={register.togglePassword}
+                errorMessage={register.errors.password?.message}
+              />
+            )}
           />
 
           <Text style={[styles.hint, { color: colors.secondary }]}>
-            *Debe contener mínimo 8 caracteres, letras, números y símbolo.
+            *Debe contener mínimo 8 caracteres, una mayúscula y un número.
           </Text>
 
-          <PasswordInput
-            label="Reingresa Contraseña"
-            value={register.confirmPassword}
-            onChange={register.setConfirmPassword}
-            show={register.showConfirmPassword}
-            onToggle={register.toggleConfirmPassword}
+          <Controller
+            control={register.control}
+            name="confirmPassword"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <PasswordInput
+                label="Reingresa Contraseña"
+                value={value}
+                onChange={onChange}
+                onBlur={onBlur}
+                show={register.showConfirmPassword}
+                onToggle={register.toggleConfirmPassword}
+                errorMessage={register.errors.confirmPassword?.message}
+              />
+            )}
           />
 
+          {register.serverError && (
+            <Text style={{ color: colors.error, textAlign: 'center', marginBottom: 12 }}>
+              {register.serverError}
+            </Text>
+          )}
+
           <AppButton
-            mode="contained"
-            onPress={handleRegister}
-            disabled={!register.canSubmit}
+            onPress={register.onSubmit}
+            disabled={!register.isValid || register.isLoading}
+            loading={register.isLoading}
             style={styles.button}
           >
             Regístrate
@@ -110,6 +147,7 @@ export function RegisterScreen({
               </Text>
             </TouchableOpacity>
           </View>
+
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

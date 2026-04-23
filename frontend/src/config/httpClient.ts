@@ -1,4 +1,4 @@
-import { useAuthStore } from "@/features/auth/store/authStore";
+import { useAuthStore } from "@/features/auth/stores";
 
 export async function authFetch(url: string, options: RequestInit = {}): Promise<Response> {
     const credentials = useAuthStore.getState().credentials;

@@ -1,0 +1,1 @@
+export const UDG_EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@alumnos\.udg\.mx$/

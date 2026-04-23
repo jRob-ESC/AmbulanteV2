@@ -1,16 +1,3 @@
-export interface LoginRequest {
-    email: string;
-    password: string;
-}
-
-export interface RegisterRequest {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-}
-
 export interface EditProfileRequest {
     username: string;
     image_url: string;

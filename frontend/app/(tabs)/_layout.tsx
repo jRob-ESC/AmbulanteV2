@@ -1,9 +1,15 @@
-import { Tabs } from "expo-router"
+import { Redirect, Tabs } from "expo-router"
 import { useTheme } from "react-native-paper"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
+import { useAuthStore } from "@/features/auth/stores"
 
 export default function TabsLayout() {
     const { colors } = useTheme();
+    const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
+    if (!isAuthenticated) {
+        return <Redirect href="/(auth)/login" />;
+    }
 
     return (
         <Tabs 
@@ -18,7 +24,6 @@ export default function TabsLayout() {
                 }
             }}
         >
-        
             <Tabs.Screen 
                 name="index"
                 options={{
@@ -28,7 +33,6 @@ export default function TabsLayout() {
                     ),
                 }}
             />
-
             <Tabs.Screen 
                 name="map"
                 options={{
@@ -38,7 +42,6 @@ export default function TabsLayout() {
                     ),
                 }}
             />
-
             <Tabs.Screen 
                 name="profile"
                 options={{
