@@ -16,7 +16,11 @@ export async function login(email: string, password: string) {
         throw error;
     }
 
-    return response.json();
+    const user = await response.json();
+    return {
+        ...user,
+        imgUrl: user.imgUrl ? `${API_URL}${user.imgUrl}` : null
+    };
 }
 
 export async function register(firstName: string, lastName: string, email: string, password: string) {
