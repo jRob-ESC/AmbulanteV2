@@ -3,7 +3,7 @@ import { useRouter } from "expo-router";
 
 type Props = { 
     userId: number;
-    avatarUrl?: string;
+    avatarUrl?: string | null;
     size?: number;
     onPress?: () => void;
     isActive?: boolean;
@@ -18,7 +18,7 @@ export function UserAvatar({ userId, avatarUrl, size = 40, onPress, isActive }: 
         <View>
             <Pressable onPress={handlePress}>
                 <Image
-                    source={{ uri: avatarUrl }}
+                    source={{ uri: avatarUrl ?? undefined}}
                     style={[
                         styles.avatar,
                         { width: size, height: size, borderRadius: size / 2 }
