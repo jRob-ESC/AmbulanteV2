@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export default function SuperiorFilter(){
+export function SuperiorFilter(){
     return(
         <View style={styles.filterContainer}>
             <TouchableOpacity style={styles.filterButton}>

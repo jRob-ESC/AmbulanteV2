@@ -10,7 +10,7 @@ interface ProductProps{
     image: string;
 }
 
-const Product = ({id, nombre, precio, stock, image }: ProductProps) =>{
+export const Product = ({id, nombre, precio, stock, image }: ProductProps) =>{
     return (
         <View>
          <View style={styles.productRow}>
@@ -82,5 +82,3 @@ const styles = StyleSheet.create({
     backgroundColor: '#e0e0e0',
   },
 });
-
-export default Product;

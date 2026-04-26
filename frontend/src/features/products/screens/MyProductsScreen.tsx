@@ -2,8 +2,8 @@ import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { Appbar, Text, Divider } from 'react-native-paper';
 import { useRouter } from 'expo-router';
-import SuperiorFilter from './SuperiorFilter';
-import Product from './Product';
+import { SuperiorFilter } from '@/shared/components';
+import { Product } from '../components/Product';
 
 // Datos de ejemplo
 const PRODUCTOS = [
@@ -13,7 +13,7 @@ const PRODUCTOS = [
   { id: '4', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
 ];
 
-export default function MisProductos() {
+export function MyProducts() {
   const router = useRouter();
 
   const renderItem = ({ item }) => (
