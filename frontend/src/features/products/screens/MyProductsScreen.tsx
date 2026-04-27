@@ -1,9 +1,9 @@
-import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
-import { Appbar, Text, Divider } from 'react-native-paper';
+import { Appbar, Text, Divider, AnimatedFAB, useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import { SuperiorFilter } from '@/shared/components';
-import { Product } from '../components/Product';
+import { ProductRow } from '../components';
+import { useState } from 'react';
 
 // Datos de ejemplo
 const PRODUCTOS = [
@@ -11,13 +11,29 @@ const PRODUCTOS = [
   { id: '2', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
   { id: '3', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
   { id: '4', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
+  { id: '5', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
+  { id: '6', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
+  { id: '7', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
+  { id: '8', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
+  { id: '9', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
+  { id: '10', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
+  { id: '11', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
+  { id: '12', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
 ];
 
-export function MyProducts() {
+export function MyProductsScreen() {
+  const { colors } = useTheme();
+
   const router = useRouter();
+  const [isExtended, setIsExtended] = useState(true);
+
+  const onScroll = ({ nativeEvent }) => {
+    const currentScrollPosition = Math.floor(nativeEvent?.contentOffset?.y) ?? 0;
+    setIsExtended(currentScrollPosition <= 0);
+  };
 
   const renderItem = ({ item }) => (
-    <Product id={item.id}  nombre={item.nombre} precio={item.precio} stock={item.stock} image={item.image}/>
+    <ProductRow id={item.id}  nombre={item.nombre} precio={item.precio} stock={item.stock} image={item.image}/>
   );
 
   return (
@@ -47,6 +63,19 @@ export function MyProducts() {
         renderItem={renderItem}
         keyExtractor={item => item.id}
         contentContainerStyle={styles.listPadding}
+        onScroll={onScroll}
+        scrollEventThrottle={16}
+      />
+
+      <AnimatedFAB 
+        icon="plus"
+        label="Crear producto"
+        extended={isExtended}
+        onPress={() => {router.push('/profile/products/register')}}
+        animateFrom='right'
+        iconMode='static'
+        style={[styles.fab, {backgroundColor: colors.primary}]}
+        color={colors.onPrimary}
       />
     </View>
   );
@@ -55,10 +84,8 @@ export function MyProducts() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   header: {
-    backgroundColor: '#fff',
     elevation: 0,
   },
   headerTitle: {
@@ -71,16 +98,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: '#fff',
   },
   headerLabel: {
     fontWeight: 'bold',
     fontSize: 14,
-    color: '#333',
+    color: 'colors.textPrimary',
     textAlign: 'center',
   },
   listPadding: {
     paddingHorizontal: 16,
+    paddingBottom: 108,
   },
   columnImagePlaceholder: {
     width: 70,
@@ -96,5 +123,10 @@ const styles = StyleSheet.create({
   columnStock: {
     flex: 0.8,
     alignItems: 'center',
+  },
+  fab: {
+    position: 'absolute',
+    bottom: 44,
+    right: 16,
   },
 });

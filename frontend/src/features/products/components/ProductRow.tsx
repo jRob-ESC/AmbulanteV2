@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import { Text, Divider } from 'react-native-paper';
 
-interface ProductProps{
+interface ProductRowProps{
     id: string;
     nombre: string;
     precio: string;
@@ -10,7 +10,7 @@ interface ProductProps{
     image: string;
 }
 
-export const Product = ({id, nombre, precio, stock, image }: ProductProps) =>{
+export const ProductRow = ({id, nombre, precio, stock, image }: ProductRowProps) =>{
     return (
         <View>
          <View style={styles.productRow}>

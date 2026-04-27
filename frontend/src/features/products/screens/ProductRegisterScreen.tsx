@@ -1,18 +1,14 @@
-//import { Text } from "react-native-paper";
 import { View, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, Text, IconButton, useTheme, Appbar } from 'react-native-paper';
 import { useRouter } from 'expo-router';
-import ProductForm from './ProductForm';
+import ProductForm from '../components/ProductForm';
 
-export default function Profile() {
+export function ProductRegisterScreen() {
     const router = useRouter();
     const theme = useTheme();
 
     return (
-        <View style={styles.container}>
-        {/* <Text variant="displayLarge"> Perfil </Text> */}
-        
-      {/* Header con Expo Router */}
+        <View style={styles.container}>        
         <Appbar.Header style={styles.header}>
             <Appbar.BackAction onPress={() => router.back()} />
             <Appbar.Content title="Registro de producto" titleStyle={styles.headerTitle} />
@@ -25,13 +21,11 @@ export default function Profile() {
             <TouchableOpacity style={styles.imagePicker}>
                 <IconButton icon="upload" size={30} iconColor="#8d2d24" />
             </TouchableOpacity>
-            <Text style={styles.imageLabel}>Imagen</Text>
+            <Text style={styles.imageLabel}>Imagen del producto</Text>
             </View>
 
-            {/* Formulario */}
             <ProductForm/>
 
-            {/* Botones de Acción */}
             <View style={styles.buttonContainer}>
             <Button 
                 mode="contained" 
@@ -39,7 +33,7 @@ export default function Profile() {
                 style={[styles.button, styles.exitButton]}
                 labelStyle={{ color: '#8d2d24' }}
             >
-                Salir
+                Cancelar
             </Button>
             
             <Button 

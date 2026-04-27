@@ -17,6 +17,7 @@
             ...MD3LightTheme.colors,
 
             primary: "#E1251B", // Main actions
+            onPrimary: "#FFFFFF", // Color to use against primary color
             secondary: "#6B7280", // Secondary actions
             error: "#F05545", // Destructive actions like deletion
             
