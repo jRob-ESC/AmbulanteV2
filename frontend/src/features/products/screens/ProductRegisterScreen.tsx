@@ -1,11 +1,30 @@
-import { View, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-import { Button, Text, IconButton, useTheme, Appbar } from 'react-native-paper';
+import { useState } from 'react';
+import { View, ScrollView, StyleSheet } from 'react-native';
+import { Button, useTheme, Appbar } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import ProductForm from '../components/ProductForm';
+import type { ProductFormData } from '../components/ProductForm';
 
 export function ProductRegisterScreen() {
     const router = useRouter();
     const theme = useTheme();
+
+    const [formData, setFormData] = useState<ProductFormData>({
+      name: '',
+      price: '',
+      stock: 0,
+      category: '',
+      description: '',
+      additionalDetails: '',
+      image: null,
+    })
+
+    const handleChange = (field: keyof ProductFormData, value: any) => {
+      setFormData(prev => ({
+        ...prev,
+        [field]: value
+      }));
+    };
 
     return (
         <View style={styles.container}>        
@@ -15,35 +34,29 @@ export function ProductRegisterScreen() {
         </Appbar.Header>
 
         <ScrollView contentContainerStyle={styles.scrollContent}>
-            
-            {/* Selector de Imagen */}
-            <View style={styles.imageContainer}>
-            <TouchableOpacity style={styles.imagePicker}>
-                <IconButton icon="upload" size={30} iconColor="#8d2d24" />
-            </TouchableOpacity>
-            <Text style={styles.imageLabel}>Imagen del producto</Text>
-            </View>
+          <ProductForm 
+            data={formData}
+            onChange={handleChange}
+          />
 
-            <ProductForm/>
-
-            <View style={styles.buttonContainer}>
+          <View style={styles.buttonContainer}>
             <Button 
-                mode="contained" 
-                onPress={() => router.back()} 
-                style={[styles.button, styles.exitButton]}
-                labelStyle={{ color: '#8d2d24' }}
+              mode="contained" 
+              onPress={() => router.back()} 
+              style={[styles.button, styles.exitButton]}
+              labelStyle={{ color: '#8d2d24' }}
             >
-                Cancelar
+              Cancelar
             </Button>
             
             <Button 
-                mode="contained" 
-                onPress={() => console.log('Guardado')} 
-                style={[styles.button, styles.saveButton]}
+              mode="contained" 
+              onPress={() => console.log('Guardado')} 
+              style={[styles.button, styles.saveButton]}
             >
-                Guardar
+              Guardar
             </Button>
-            </View>
+          </View>
 
         </ScrollView>
         </View>
@@ -68,25 +81,6 @@ const styles = StyleSheet.create({
   scrollContent: {
     padding: 20,
     paddingBottom: 40,
-  },
-  imageContainer: {
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  imagePicker: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    borderWidth: 1,
-    borderColor: '#c07e78',
-    borderStyle: 'dashed',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  imageLabel: {
-    fontSize: 12,
-    color: '#666',
   },
   buttonContainer: {
     flexDirection: 'row',

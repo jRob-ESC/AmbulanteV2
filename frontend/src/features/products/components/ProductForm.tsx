@@ -2,36 +2,50 @@ import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { TextInput, Text, Menu } from 'react-native-paper';
 import { StockInput } from '@/shared/components';
+import { ProductImagePicker } from './ProductImagePicker';
+
+export interface ProductFormData {
+  name: string,
+  price: string,
+  stock: number,
+  category: string,
+  description: string,
+  additionalDetails: string,
+  image: string | null;
+}
+
+interface ProductFormProps {
+  data: ProductFormData,
+  onChange: (field: keyof ProductFormData, value: any) => void;
+}
 
 const CATEGORIAS = [
   'Alimentos', 'Ropa', 'Calzado', 'Accesorios',
   'Electrónicos', 'Recreativos', 'Otros',
 ];
 
-export default function ProductForm(){
-    const [nombre, setNombre] = useState('');
-    const [precio, setPrecio] = useState('');
-    const [stock, setStock] = useState(0);
-    const [categoria, setCategoria] = useState('');
+export default function ProductForm({ data, onChange }: ProductFormProps){
     const [menuVisible, setMenuVisible] = useState(false);
-    const [descripcion, setDescripcion] = useState('');
-    const [detalles, setDetalles] = useState('');
-    const [inputHeight, setInputHeight] = useState(56);
 
     return (
         <View>
+            <ProductImagePicker 
+              image={data.image}
+              onChange={(img) => onChange('image', img)}
+            />
+
             <TextInput
                 label="Nombre"
-                value={nombre}
-                onChangeText={setNombre}
+                value={data.name}
+                onChangeText={(text) => onChange('name', text)}
                 mode="outlined"
                 style={styles.input}
             />
 
             <TextInput
                 label="Precio"
-                value={precio}
-                onChangeText={setPrecio}
+                value={data.price}
+                onChangeText={(text) => onChange('price', text)}
                 mode="outlined"
                 left={<TextInput.Affix text="$ " />}
                 keyboardType="numeric"
@@ -42,9 +56,9 @@ export default function ProductForm(){
               <View style={styles.stockWrapper}>
                 <Text variant="labelMedium" style={styles.fieldLabel}>Stock</Text>
                 <StockInput
-                  value={stock}
-                  onChange={setStock}
-                  height={inputHeight}
+                  value={data.stock}
+                  onChange={(value) => onChange('stock', value)}
+                  height={56}
                 />
               </View>
 
@@ -56,7 +70,7 @@ export default function ProductForm(){
                 contentStyle={{backgroundColor: '#fff'}}
                 anchor={
                   <TextInput
-                    value={categoria}
+                    value={data.category}
                     mode="outlined"
                     placeholder="Seleccionar"
                     right={<TextInput.Icon icon="chevron-down" onPress={() => setMenuVisible(true)} />}
@@ -69,8 +83,8 @@ export default function ProductForm(){
                     key={cat}
                     title={cat}
                     onPress={() => {
-                    setCategoria(cat);
-                    setMenuVisible(false);
+                      onChange('category', cat);
+                      setMenuVisible(false);
                     }}
                   />
                 ))}
@@ -80,26 +94,25 @@ export default function ProductForm(){
 
             <TextInput
                 label="Descripción"
-                value={descripcion}
-                onChangeText={setDescripcion}
+                value={data.description}
+                onChangeText={(text) => onChange('description', text)}
                 mode="outlined"
                 placeholder="(opcional)"
-                multiline
+                multiline={true}
                 numberOfLines={4}
                 style={styles.input}
             />
 
             <TextInput
                 label="Detalles adicionales"
-                value={detalles}
-                onChangeText={setDetalles}
+                value={data.additionalDetails}
+                onChangeText={(text) => onChange('additionalDetails', text)}
                 mode="outlined"
                 placeholder="(opcional)"
-                multiline
+                multiline={true}
                 numberOfLines={4}
                 style={styles.input}
             />
-
         </View>
     )
 }

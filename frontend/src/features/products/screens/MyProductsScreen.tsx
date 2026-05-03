@@ -44,7 +44,6 @@ export function MyProductsScreen() {
         <Appbar.Content title="Mis Productos" titleStyle={styles.headerTitle} />
       </Appbar.Header>
 
-      {/* Filtros Superiores */}
       <SuperiorFilter/>
 
       <Divider />
