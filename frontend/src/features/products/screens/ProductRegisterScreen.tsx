@@ -21,7 +21,7 @@ export function ProductRegisterScreen() {
 
     const handleChange = (field: keyof ProductFormData, value: any) => {
       setFormData(prev => ({
-        ...prev,
+        ...prev,  
         [field]: value
       }));
     };
@@ -57,7 +57,6 @@ export function ProductRegisterScreen() {
               Guardar
             </Button>
           </View>
-
         </ScrollView>
         </View>
     )

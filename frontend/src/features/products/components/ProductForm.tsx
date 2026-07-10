@@ -19,7 +19,7 @@ interface ProductFormProps {
   onChange: (field: keyof ProductFormData, value: any) => void;
 }
 
-const CATEGORIAS = [
+export const CATEGORIAS = [
   'Alimentos', 'Ropa', 'Calzado', 'Accesorios',
   'Electrónicos', 'Recreativos', 'Otros',
 ];

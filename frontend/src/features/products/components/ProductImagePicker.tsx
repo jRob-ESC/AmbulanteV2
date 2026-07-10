@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { View, TouchableOpacity, StyleSheet, Image, Alert } from "react-native";
 import { IconButton, Text } from "react-native-paper";
 import * as ImagePicker from 'expo-image-picker';
