@@ -1,2 +1,2 @@
 export * from './MyProductsScreen';
-export * from './ProductRegisterScreen';
+export * from './ProductFormScreen';

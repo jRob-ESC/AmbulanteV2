@@ -1,4 +1,4 @@
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, Pressable } from 'react-native';
 import { Appbar, Text, Divider, AnimatedFAB, useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import { SuperiorFilter } from '@/shared/components';
@@ -7,18 +7,18 @@ import { useState } from 'react';
 
 // Datos de ejemplo
 const PRODUCTOS = [
-  { id: '1', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
-  { id: '2', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
-  { id: '3', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
-  { id: '4', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
-  { id: '5', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
-  { id: '6', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
-  { id: '7', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
-  { id: '8', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
-  { id: '9', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
-  { id: '10', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
-  { id: '11', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
-  { id: '12', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://via.placeholder.com/60' },
+  { id: '1', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://picsum.photos/60' },
+  { id: '2', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://picsum.photos/60' },
+  { id: '3', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://picsum.photos/60' },
+  { id: '4', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://picsum.photos/60' },
+  { id: '5', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://picsum.photos/60' },
+  { id: '6', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://picsum.photos/60' },
+  { id: '7', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://picsum.photos/60' },
+  { id: '8', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://picsum.photos/60' },
+  { id: '9', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://picsum.photos/60' },
+  { id: '10', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://picsum.photos/60' },
+  { id: '11', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://picsum.photos/60' },
+  { id: '12', nombre: 'Enfrijoladas con pollo', precio: '250', stock: '5', image: 'https://picsum.photos/60' },
 ];
 
 export function MyProductsScreen() {
@@ -33,7 +33,9 @@ export function MyProductsScreen() {
   };
 
   const renderItem = ({ item }) => (
-    <ProductRow id={item.id}  nombre={item.nombre} precio={item.precio} stock={item.stock} image={item.image}/>
+    <Pressable onPress={() => router.push(`/profile/products/${item.id}`)}>
+      <ProductRow id={item.id} nombre={item.nombre} precio={item.precio} stock={item.stock} image={item.image} />
+    </Pressable>
   );
 
   return (

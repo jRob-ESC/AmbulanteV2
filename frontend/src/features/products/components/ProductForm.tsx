@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { TextInput, Text, Menu } from 'react-native-paper';
+import { View, StyleSheet, Modal, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import { TextInput, Text, useTheme } from 'react-native-paper';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StockInput } from '@/shared/components';
 import { ProductImagePicker } from './ProductImagePicker';
 
@@ -25,7 +26,8 @@ export const CATEGORIAS = [
 ];
 
 export default function ProductForm({ data, onChange }: ProductFormProps){
-    const [menuVisible, setMenuVisible] = useState(false);
+    const { colors } = useTheme();
+    const [sheetVisible, setSheetVisible] = useState(false);
 
     return (
         <View>
@@ -64,31 +66,61 @@ export default function ProductForm({ data, onChange }: ProductFormProps){
 
             <View style={styles.categoriaWrapper}>
               <Text variant="labelMedium" style={styles.fieldLabel}>Categoría</Text>
-              <Menu
-                visible={menuVisible}
-                onDismiss={() => setMenuVisible(false)}
-                contentStyle={{backgroundColor: '#fff'}}
-                anchor={
-                  <TextInput
-                    value={data.category}
-                    mode="outlined"
-                    placeholder="Seleccionar"
-                    right={<TextInput.Icon icon="chevron-down" onPress={() => setMenuVisible(true)} />}
-                    style={styles.categoriaInput}
-                  />
-                }
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => setSheetVisible(true)}
+                style={[
+                  styles.selector,
+                  { borderColor: colors.outline, backgroundColor: colors.surface },
+                ]}
               >
-                {CATEGORIAS.map((cat) => (
-                  <Menu.Item
-                    key={cat}
-                    title={cat}
-                    onPress={() => {
-                      onChange('category', cat);
-                      setMenuVisible(false);
-                    }}
-                  />
-                ))}
-              </Menu>
+                <Text
+                  style={[
+                    styles.selectorText,
+                    { color: data.category ? colors.textPrimary : colors.textSecondary },
+                  ]}
+                  numberOfLines={1}
+                >
+                  {data.category || 'Seleccionar'}
+                </Text>
+                <MaterialCommunityIcons name="chevron-down" size={20} color={colors.textSecondary} />
+              </TouchableOpacity>
+
+              <Modal visible={sheetVisible} transparent animationType="slide" onRequestClose={() => setSheetVisible(false)}>
+                <TouchableWithoutFeedback onPress={() => setSheetVisible(false)}>
+                  <View style={styles.backdrop} />
+                </TouchableWithoutFeedback>
+                <View style={[styles.sheet, { backgroundColor: colors.surface }]}>
+                  <View style={[styles.sheetHandle, { backgroundColor: colors.border }]} />
+                  <Text variant="titleSmall" style={[styles.sheetTitle, { color: colors.textPrimary }]}>
+                    Categoría
+                  </Text>
+                  <ScrollView bounces={false}>
+                    {CATEGORIAS.map((cat) => {
+                      const isSelected = cat === data.category;
+                      return (
+                        <TouchableOpacity
+                          key={cat}
+                          onPress={() => { onChange('category', cat); setSheetVisible(false); }}
+                          activeOpacity={0.6}
+                          style={[
+                            styles.option,
+                            { borderBottomColor: colors.border },
+                            isSelected && { backgroundColor: `${colors.primary}12` },
+                          ]}
+                        >
+                          <Text style={[styles.optionLabel, { color: isSelected ? colors.primary : colors.textPrimary }]}>
+                            {cat}
+                          </Text>
+                          {isSelected && (
+                            <MaterialCommunityIcons name="check" size={18} color={colors.primary} />
+                          )}
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </ScrollView>
+                </View>
+              </Modal>
             </View>
           </View>
 
@@ -139,7 +171,51 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     marginLeft: 4,
   },
-  categoriaInput: {
-    backgroundColor: '#fff',
+  selector: {
+    height: 56,
+    borderWidth: 1,
+    borderRadius: 4,
+    paddingHorizontal: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  selectorText: {
+    fontSize: 16,
+    flex: 1,
+  },
+  backdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.35)',
+  },
+  sheet: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingBottom: 32,
+    paddingTop: 12,
+    elevation: 12,
+  },
+  sheetHandle: {
+    width: 40,
+    height: 4,
+    borderRadius: 2,
+    alignSelf: 'center',
+    marginBottom: 16,
+  },
+  sheetTitle: {
+    paddingHorizontal: 20,
+    marginBottom: 8,
+    fontWeight: '600',
+  },
+  option: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 14,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  optionLabel: {
+    fontSize: 15,
   },
 });
