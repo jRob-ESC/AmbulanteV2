@@ -1,5 +1,6 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { List, Divider, useTheme, Text } from 'react-native-paper';
+import { useRouter } from 'expo-router';
 import { UserAvatar } from '@/shared/components';
 import { User } from '../../auth/types'
 
@@ -10,6 +11,8 @@ interface ProfileScreenProps {
 
 export function ProfileScreen({user, onLogout}: ProfileScreenProps) {
   const { colors } = useTheme();
+
+  const router = useRouter();
 
   return (
     <ScrollView style={styles.container}>
@@ -44,10 +47,10 @@ export function ProfileScreen({user, onLogout}: ProfileScreenProps) {
         title="Mis productos"
         left={props => <List.Icon {...props} icon="shopping-outline" />}
         right={props => <List.Icon {...props} icon="chevron-right" />}
-        onPress={() => {}}
+        onPress={() => {router.push("/profile/my-products")}}
       />
       <Divider />
-      <List.Item
+      <List.Item  
         title="Mis ordenes de compra"
         left={props => <List.Icon {...props} icon="clipboard-list-outline" />}
         right={props => <List.Icon {...props} icon="chevron-right" />}

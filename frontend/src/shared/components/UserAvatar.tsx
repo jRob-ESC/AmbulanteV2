@@ -1,5 +1,4 @@
 import { Pressable, StyleSheet, Image, View } from "react-native";
-import { useRouter } from "expo-router";
 
 type Props = { 
     userId: number;
@@ -9,24 +8,25 @@ type Props = {
     isActive?: boolean;
 };
 
-export function UserAvatar({ userId, avatarUrl, size = 40, onPress, isActive }: Props) {
-    const router = useRouter();
-    
-    const handlePress = onPress ?? (() => router.push(`/vendors/${userId}` as any));
+export function UserAvatar({ avatarUrl, size = 40, onPress, isActive }: Props) {
+    const avatar = (
+        <Image
+            source={{ uri: avatarUrl ?? undefined }}
+            style={[
+                styles.avatar,
+                { width: size, height: size, borderRadius: size / 2 }
+            ]}
+        />
+    );
 
     return (
         <View>
-            <Pressable onPress={handlePress}>
-                <Image
-                    source={{ uri: avatarUrl ?? undefined}}
-                    style={[
-                        styles.avatar,
-                        { width: size, height: size, borderRadius: size / 2 }
-                    ]}
-                />
-            </Pressable>
+            {onPress ? (
+                <Pressable onPress={onPress}>{avatar}</Pressable>
+            ) : (
+                avatar
+            )}
 
-            {/* Green active indicator */}
             {isActive && (
                 <View style={styles.activeIndicator} />
             )}
