@@ -13,6 +13,28 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const CATEGORIAS = ['Todas', 'Alimentos', 'Ropa', 'Calzado', 'Accesorios', 'Electrónicos', 'Recreativos', 'Otros'];
 const STOCK_OPTIONS = ['Cualquiera', 'Con stock', 'Sin stock', 'Poco stock (< 5)'];
 
+export type FilterConfig = {
+  key: string;
+  title: string;
+  options: string[];
+  defaultValue: string;
+};
+
+const DEFAULT_FILTERS: FilterConfig[] = [
+  {
+    key: 'categoria',
+    title: 'Categoría',
+    options: CATEGORIAS,
+    defaultValue: 'Todas',
+  },
+  {
+    key: 'stock',
+    title: 'Cantidad de stock',
+    options: STOCK_OPTIONS,
+    defaultValue: 'Cualquiera',
+  },
+];
+
 type FilterChipProps = {
   label: string;
   active: boolean;
@@ -105,40 +127,39 @@ function OptionSheet({ visible, title, options, selected, onSelect, onClose }: O
   );
 }
 
-export function SuperiorFilter() {
-  const [categoria, setCategoria] = useState('Todas');
-  const [stock, setStock] = useState('Cualquiera');
-  const [openSheet, setOpenSheet] = useState<'categoria' | 'stock' | null>(null);
+type SuperiorFilterProps = {
+  filters?: FilterConfig[];
+};
+
+export function SuperiorFilter({ filters = DEFAULT_FILTERS }: SuperiorFilterProps) {
+  const [values, setValues] = useState<Record<string, string>>(() =>
+    Object.fromEntries(filters.map((filter) => [filter.key, filter.defaultValue])),
+  );
+  const [openSheet, setOpenSheet] = useState<string | null>(null);
+
+  const activeFilter = filters.find((filter) => filter.key === openSheet);
 
   return (
     <View style={styles.container}>
-      <FilterChip
-        label={categoria}
-        active={categoria !== 'Todas'}
-        onPress={() => setOpenSheet('categoria')}
-      />
-      <FilterChip
-        label={stock}
-        active={stock !== 'Cualquiera'}
-        onPress={() => setOpenSheet('stock')}
-      />
+      {filters.map((filter) => (
+        <FilterChip
+          key={filter.key}
+          label={values[filter.key]}
+          active={values[filter.key] !== filter.defaultValue}
+          onPress={() => setOpenSheet(filter.key)}
+        />
+      ))}
 
-      <OptionSheet
-        visible={openSheet === 'categoria'}
-        title="Categoría"
-        options={CATEGORIAS}
-        selected={categoria}
-        onSelect={setCategoria}
-        onClose={() => setOpenSheet(null)}
-      />
-      <OptionSheet
-        visible={openSheet === 'stock'}
-        title="Cantidad de stock"
-        options={STOCK_OPTIONS}
-        selected={stock}
-        onSelect={setStock}
-        onClose={() => setOpenSheet(null)}
-      />
+      {activeFilter && (
+        <OptionSheet
+          visible
+          title={activeFilter.title}
+          options={activeFilter.options}
+          selected={values[activeFilter.key]}
+          onSelect={(value) => setValues((prev) => ({ ...prev, [activeFilter.key]: value }))}
+          onClose={() => setOpenSheet(null)}
+        />
+      )}
     </View>
   );
 }

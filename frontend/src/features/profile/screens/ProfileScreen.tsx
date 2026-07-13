@@ -45,16 +45,16 @@ export function ProfileScreen({user, onLogout}: ProfileScreenProps) {
       <Divider />
       <List.Item
         title="Mis productos"
-        left={props => <List.Icon {...props} icon="shopping-outline" />}
+        left={props => <List.Icon {...props} icon="clipboard-list-outline" />}
         right={props => <List.Icon {...props} icon="chevron-right" />}
-        onPress={() => {router.push("/profile/my-products")}}
+        onPress={() => {router.push("/profile/vendor-products")}}
       />
       <Divider />
       <List.Item  
-        title="Mis ordenes de compra"
-        left={props => <List.Icon {...props} icon="clipboard-list-outline" />}
+        title="Mis compras"
+        left={props => <List.Icon {...props} icon="shopping-outline" />}
         right={props => <List.Icon {...props} icon="chevron-right" />}
-        onPress={() => {}}
+        onPress={() => {router.push("/profile/my-products")}}
       />
       <Divider />
       <List.Item
