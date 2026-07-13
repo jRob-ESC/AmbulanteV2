@@ -19,8 +19,8 @@ const ORDER_FILTERS: FilterConfig[] = [
   },
 ];
 
-// Datos de ejemplo
-const PRODUCTOS = [
+// Mock data
+const PRODUCTS = [
   { id: '1', orderNumber: '1024', vendor: 'Juárez', orderDate: '12/01/2026', status: 'Entregado', itemCount: '5', total: '1580.00', image: 'https://picsum.photos/80?1', vendorAvatar: 'https://picsum.photos/32?201' },
   { id: '2', orderNumber: '1025', vendor: 'Juárez', orderDate: '13/01/2026', status: 'En proceso', itemCount: '4', total: '1320.00', image: 'https://picsum.photos/80?2', vendorAvatar: 'https://picsum.photos/32?202' },
   { id: '3', orderNumber: '1026', vendor: 'Juárez', orderDate: '14/01/2026', status: 'Pendiente', itemCount: '6', total: '2010.00', image: 'https://picsum.photos/80?3', vendorAvatar: 'https://picsum.photos/32?203' },
@@ -65,9 +65,9 @@ export function OrderHistoryScreen() {
 
       <Divider />
 
-      {/* Lista de Productos */}
+      {/* Products List */}
       <FlatList
-        data={PRODUCTOS}
+        data={PRODUCTS}
         renderItem={renderItem}
         keyExtractor={item => item.id}
         contentContainerStyle={styles.listPadding}

@@ -1,7 +1,7 @@
-import { OrderHistoryScreen } from '@/features/products/screens'
+import { OrderHistoryScreen, VendorProductsScreen } from '@/features/products/screens'
 
 export default function MyProducts() {
     return (
-        <OrderHistoryScreen />
+        <VendorProductsScreen />
     )
 }

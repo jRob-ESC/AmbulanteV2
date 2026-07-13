@@ -6,7 +6,7 @@ import { VendorProductCard } from '../components';
 import { useState } from 'react';
 
 // Datos de ejemplo
-const PRODUCTOS = [
+const PRODUCTS = [
   { id: '1', name: 'Enfrijoladas con pollo', category: 'Antojitos', price: '250', stock: '5', isActive: true, image: 'https://picsum.photos/80?1' },
   { id: '2', name: 'Quesadillas de bistec', category: 'Antojitos', price: '190', stock: '3', isActive: true, image: 'https://picsum.photos/80?2' },
   { id: '3', name: 'Tacos dorados', category: 'Antojitos', price: '120', stock: '8', isActive: false, image: 'https://picsum.photos/80?3' },
@@ -57,9 +57,9 @@ export function VendorProductsScreen() {
 
       <Divider />
 
-      {/* Lista de Productos */}
+      {/* Products List */}
       <FlatList
-        data={PRODUCTOS}
+        data={PRODUCTS}
         renderItem={renderItem}
         keyExtractor={item => item.id}
         contentContainerStyle={styles.listPadding}
