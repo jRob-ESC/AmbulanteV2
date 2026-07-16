@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import { Text } from 'react-native-paper';
 import { BaseListCard } from './BaseListCard';
+import { OrderStatusBadge } from './OrderStatusBadge';
 
 interface OrderHistoryCardProps {
   orderNumber: string;
@@ -14,13 +15,6 @@ interface OrderHistoryCardProps {
   vendorAvatar?: string;
 }
 
-const STATUS_STYLES: Record<string, { backgroundColor: string; color: string }> = {
-  Entregado: { backgroundColor: '#E6F6EA', color: '#25A25A' },
-  'En proceso': { backgroundColor: '#FFF4E5', color: '#C27A16' },
-  Pendiente: { backgroundColor: '#EEF2FF', color: '#4C6EF5' },
-  Cancelado: { backgroundColor: '#FDECEC', color: '#D64545' },
-};
-
 export const OrderHistoryCard = ({
   orderNumber,
   vendor,
@@ -31,8 +25,6 @@ export const OrderHistoryCard = ({
   image,
   vendorAvatar,
 }: OrderHistoryCardProps) => {
-  const statusStyle = STATUS_STYLES[status] ?? STATUS_STYLES.Pendiente;
-
   return (
     <BaseListCard image={image} rightAdornment={<Text style={styles.chevron}>›</Text>}>
       <View style={styles.topRow}>
@@ -60,11 +52,7 @@ export const OrderHistoryCard = ({
       </View>
 
       <View style={styles.bottomRow}>
-        <View style={[styles.statusBadge, { backgroundColor: statusStyle.backgroundColor }]}>
-          <Text variant="labelSmall" style={[styles.statusText, { color: statusStyle.color }]}>
-            {status}
-          </Text>
-        </View>
+        <OrderStatusBadge status={status} />
 
         <View style={styles.metricsContainer}>
           <Text variant="bodyMedium" style={styles.itemsText}>
@@ -133,15 +121,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: 8,
-  },
-  statusBadge: {
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 8,
-  },
-  statusText: {
-    fontSize: 12,
-    fontWeight: '700',
   },
   metricsContainer: {
     alignItems: 'flex-end',

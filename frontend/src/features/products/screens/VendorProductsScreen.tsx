@@ -5,7 +5,7 @@ import { SuperiorFilter } from '@/shared/components';
 import { VendorProductCard } from '../components';
 import { useState } from 'react';
 
-// Datos de ejemplo
+// Mock Data
 const PRODUCTS = [
   { id: '1', name: 'Enfrijoladas con pollo', category: 'Antojitos', price: '250', stock: '5', isActive: true, image: 'https://picsum.photos/80?1' },
   { id: '2', name: 'Quesadillas de bistec', category: 'Antojitos', price: '190', stock: '3', isActive: true, image: 'https://picsum.photos/80?2' },
