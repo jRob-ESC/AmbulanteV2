@@ -1,5 +1,5 @@
 import { View, StyleSheet, FlatList, Pressable } from 'react-native';
-import { Appbar, Divider } from 'react-native-paper';
+import { Appbar, Divider, useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import { SuperiorFilter, type FilterConfig } from '@/shared/components';
 import { OrderHistoryCard } from '../components';
@@ -49,6 +49,7 @@ const PRODUCTS: OrderHistoryItem[] = [
 
 export function OrderHistoryScreen() {
   const router = useRouter();
+  const { colors } = useTheme();
 
   const renderItem = ({ item }: { item: OrderHistoryItem }) => (
     <Pressable onPress={() => router.push({ pathname: '/profile/order-detail', params: { id: item.id } })}>
@@ -68,9 +69,9 @@ export function OrderHistoryScreen() {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <Appbar.Header style={styles.header}>
-        <Appbar.BackAction onPress={() => router.back()} />
-        <Appbar.Content title="Mis compras" titleStyle={styles.headerTitle} />
+      <Appbar.Header style={[styles.header, { backgroundColor: colors.primary }]}>
+        <Appbar.BackAction color={colors.onPrimary} onPress={() => router.back()} />
+        <Appbar.Content title="Mis compras" color={colors.onPrimary} titleStyle={styles.headerTitle} />
       </Appbar.Header>
 
       <SuperiorFilter filters={ORDER_FILTERS} />
@@ -98,6 +99,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: '500',
+    color: '#FFFFFF',
     textAlign: 'center',
     marginRight: 40,
   },

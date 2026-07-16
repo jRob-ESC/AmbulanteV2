@@ -5,8 +5,18 @@ import { SuperiorFilter } from '@/shared/components';
 import { VendorProductCard } from '../components';
 import { useState } from 'react';
 
+interface VendorProductItem {
+  id: string;
+  name: string;
+  category: string;
+  price: string;
+  stock: string;
+  isActive: boolean;
+  image: string;
+}
+
 // Mock Data
-const PRODUCTS = [
+const PRODUCTS: VendorProductItem[] = [
   { id: '1', name: 'Enfrijoladas con pollo', category: 'Antojitos', price: '250', stock: '5', isActive: true, image: 'https://picsum.photos/80?1' },
   { id: '2', name: 'Quesadillas de bistec', category: 'Antojitos', price: '190', stock: '3', isActive: true, image: 'https://picsum.photos/80?2' },
   { id: '3', name: 'Tacos dorados', category: 'Antojitos', price: '120', stock: '8', isActive: false, image: 'https://picsum.photos/80?3' },
@@ -27,12 +37,12 @@ export function VendorProductsScreen() {
   const router = useRouter();
   const [isExtended, setIsExtended] = useState(true);
 
-  const onScroll = ({ nativeEvent }) => {
+  const onScroll = ({ nativeEvent }: { nativeEvent: { contentOffset: { y: number } } }) => {
     const currentScrollPosition = Math.floor(nativeEvent?.contentOffset?.y) ?? 0;
     setIsExtended(currentScrollPosition <= 0);
   };
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item }: { item: VendorProductItem }) => (
     <Pressable onPress={() => router.push(`/profile/products/${item.id}`)}>
       <VendorProductCard
         name={item.name}
@@ -48,9 +58,9 @@ export function VendorProductsScreen() {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <Appbar.Header style={styles.header}>
-        <Appbar.BackAction onPress={() => router.back()} />
-        <Appbar.Content title="Mis Productos" titleStyle={styles.headerTitle} />
+      <Appbar.Header style={[styles.header, { backgroundColor: colors.primary }]}>
+        <Appbar.BackAction color={colors.onPrimary} onPress={() => router.back()} />
+        <Appbar.Content title="Mis Productos" color={colors.onPrimary} titleStyle={styles.headerTitle} />
       </Appbar.Header>
 
       <SuperiorFilter/>
@@ -91,6 +101,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: '500',
+    color: '#FFFFFF',
     textAlign: 'center',
     marginRight: 40,
   },

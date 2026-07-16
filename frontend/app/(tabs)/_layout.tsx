@@ -16,6 +16,13 @@ export default function TabsLayout() {
             screenOptions={{
                 headerShown: true,
                 headerTitleAlign: "center",
+                headerStyle: {
+                    backgroundColor: colors.primary,
+                },
+                headerTintColor: colors.onPrimary,
+                headerTitleStyle: {
+                    color: colors.onPrimary,
+                },
                 tabBarActiveTintColor: colors.primary,
                 tabBarInactiveTintColor: colors.secondary,
                 tabBarStyle: {

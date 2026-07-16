@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
-import { Button, Appbar } from 'react-native-paper';
+import { Button, Appbar, useTheme } from 'react-native-paper';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import ProductForm from '../components/ProductForm';
 import type { ProductFormData } from '../components/ProductForm';
@@ -62,6 +62,7 @@ function getInitialFormData(id?: string): ProductFormData {
 
 export function ProductFormScreen() {
   const router = useRouter();
+  const { colors } = useTheme();
   const { id } = useLocalSearchParams<{ id?: string }>();
   const isEditing = Boolean(id);
 
@@ -86,10 +87,11 @@ export function ProductFormScreen() {
 
   return (
     <View style={styles.container}>
-      <Appbar.Header style={styles.header}>
-        <Appbar.BackAction onPress={() => router.back()} />
+      <Appbar.Header style={[styles.header, { backgroundColor: colors.primary }]}>
+        <Appbar.BackAction color={colors.onPrimary} onPress={() => router.back()} />
         <Appbar.Content
           title={isEditing ? 'Editar producto' : 'Nuevo producto'}
+          color={colors.onPrimary}
           titleStyle={styles.headerTitle}
         />
       </Appbar.Header>
@@ -129,12 +131,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   header: {
-    backgroundColor: '#fff',
     elevation: 0,
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: '500',
+    color: '#FFFFFF',
     textAlign: 'center',
     marginRight: 40,
   },

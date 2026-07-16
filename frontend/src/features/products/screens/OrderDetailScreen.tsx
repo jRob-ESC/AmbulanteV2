@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Image, ScrollView, StyleSheet, View } from 'react-native';
-import { Appbar, Button, Card, Divider, Text } from 'react-native-paper';
+import { Appbar, Button, Card, Divider, Text, useTheme } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { OrderStatusBadge } from '../components';
@@ -14,14 +14,15 @@ const ORDER_ITEMS = [
 
 export function OrderDetailScreen() {
   const router = useRouter();
+  const { colors } = useTheme();
 
   const productsTotal = useMemo(() => '$ 1580.00', []);
 
   return (
     <View style={styles.container}>
-      <Appbar.Header style={styles.header}>
-        <Appbar.BackAction onPress={() => router.back()} />
-        <Appbar.Content title="Detalle del pedido" titleStyle={styles.headerTitle} />
+      <Appbar.Header style={[styles.header, { backgroundColor: colors.primary }]}>
+        <Appbar.BackAction color={colors.onPrimary} onPress={() => router.back()} />
+        <Appbar.Content title="Detalle del pedido" color={colors.onPrimary} titleStyle={styles.headerTitle} />
       </Appbar.Header>
 
       <ScrollView contentContainerStyle={styles.content}>
@@ -150,6 +151,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: '500',
+    color: '#FFFFFF',
     textAlign: 'center',
     marginRight: 40,
   },

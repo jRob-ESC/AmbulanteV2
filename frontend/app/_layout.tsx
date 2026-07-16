@@ -3,6 +3,7 @@ import { PaperProvider } from "react-native-paper";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
+import * as NavigationBar from "expo-navigation-bar";
 import {
   Nunito_400Regular,
   Nunito_500Medium,
@@ -22,6 +23,10 @@ export default function RootLayout() {
     Nunito_700Bold,
     Nunito_800ExtraBold,
   });
+
+  useEffect(() => {
+    void NavigationBar.setButtonStyleAsync("dark");
+  }, []);
 
   useEffect(() => {
     if (fontsLoaded || fontError) {
