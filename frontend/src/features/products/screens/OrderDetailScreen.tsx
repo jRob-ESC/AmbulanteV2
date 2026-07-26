@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Image, ScrollView, StyleSheet, View } from 'react-native';
 import { Appbar, Button, Card, Divider, Text, useTheme } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { OrderStatusBadge } from '../components';
 
 const ORDER_ITEMS = [
@@ -15,6 +15,8 @@ const ORDER_ITEMS = [
 export function OrderDetailScreen() {
   const router = useRouter();
   const { colors } = useTheme();
+  const { status } = useLocalSearchParams<{ status?: string }>();
+  const orderStatus = Array.isArray(status) ? status[0] : status ?? 'Entregado';
 
   const productsTotal = useMemo(() => '$ 1580.00', []);
 
@@ -28,7 +30,7 @@ export function OrderDetailScreen() {
       <ScrollView contentContainerStyle={styles.content}>
         <Card style={[styles.card, styles.firstCard]} mode="elevated">
           <View style={styles.statusBadgeContainer}>
-            <OrderStatusBadge status="Entregado" />
+            <OrderStatusBadge status={orderStatus} />
           </View>
 
           <View style={styles.tableHeader}>
@@ -112,31 +114,28 @@ export function OrderDetailScreen() {
           </View>
         </Card>
 
-        <Button
-          mode="contained"
-          style={styles.buyAgainButton}
-          labelStyle={styles.buyAgainLabel}
-          buttonColor="#D6372D"
-          onPress={() => {}}
-        >
-          Volver a Comprar
-        </Button>
+        {orderStatus === 'Pendiente' || orderStatus === 'En proceso' ? (
+          <Button
+            mode="contained"
+            style={styles.buyAgainButton}
+            labelStyle={styles.buyAgainLabel}
+            buttonColor="#D6372D"
+            onPress={() => {}}
+          >
+            Cancelar
+          </Button>
+        ) : (
+          <Button
+            mode="contained"
+            style={styles.buyAgainButton}
+            labelStyle={styles.buyAgainLabel}
+            buttonColor="#D6372D"
+            onPress={() => {}}
+          >
+            Volver a Comprar
+          </Button>
+        )}
       </ScrollView>
-
-      <View style={styles.fakeTabBar}>
-        <View style={styles.tabItem}>
-          <MaterialCommunityIcons name="home-outline" size={24} color="#111" />
-          <Text style={styles.tabLabel}>Home</Text>
-        </View>
-        <View style={styles.tabItem}>
-          <MaterialCommunityIcons name="map-marker-outline" size={24} color="#111" />
-          <Text style={styles.tabLabel}>Mapa</Text>
-        </View>
-        <View style={styles.tabItem}>
-          <MaterialCommunityIcons name="account-outline" size={24} color="#111" />
-          <Text style={styles.tabLabel}>Perfil</Text>
-        </View>
-      </View>
     </View>
   );
 }
@@ -276,23 +275,5 @@ const styles = StyleSheet.create({
     fontSize: 17,
     paddingHorizontal: 8,
     paddingVertical: 4,
-  },
-  fakeTabBar: {
-    borderTopWidth: 1,
-    borderTopColor: '#E0E0E0',
-    backgroundColor: '#FFFFFF',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    paddingTop: 8,
-    paddingBottom: 10,
-  },
-  tabItem: {
-    alignItems: 'center',
-    gap: 2,
-  },
-  tabLabel: {
-    fontSize: 12,
-    color: '#111',
   },
 });

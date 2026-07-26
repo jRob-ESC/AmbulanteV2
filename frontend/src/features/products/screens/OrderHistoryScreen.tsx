@@ -52,7 +52,7 @@ export function OrderHistoryScreen() {
   const { colors } = useTheme();
 
   const renderItem = ({ item }: { item: OrderHistoryItem }) => (
-    <Pressable onPress={() => router.push({ pathname: '/profile/order-detail', params: { id: item.id } })}>
+    <Pressable onPress={() => router.push({ pathname: '/profile/order-detail', params: { id: item.id, status: item.status } })}>
       <OrderHistoryCard
         orderNumber={item.orderNumber}
         vendor={item.vendor}
