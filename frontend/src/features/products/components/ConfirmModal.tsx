@@ -1,28 +1,40 @@
 import { StyleSheet, View } from 'react-native';
 import { Button, Modal, Portal, Text } from 'react-native-paper';
 
-interface CancelOrderModalProps {
+interface ConfirmModalProps {
   visible: boolean;
+  title: string;
+  message: string;
+  confirmLabel?: string;
+  dismissLabel?: string;
   onDismiss: () => void;
   onConfirm: () => void;
 }
 
-export function CancelOrderModal({ visible, onDismiss, onConfirm }: CancelOrderModalProps) {
+export function ConfirmModal({
+  visible,
+  title,
+  message,
+  confirmLabel = 'Confirmar',
+  dismissLabel = 'Cancelar',
+  onDismiss,
+  onConfirm,
+}: ConfirmModalProps) {
   return (
     <Portal>
       <Modal visible={visible} onDismiss={onDismiss} contentContainerStyle={styles.modal}>
-        <Text variant="titleMedium" style={styles.modalTitle}>
-          ¿Cancelar pedido?
+        <Text variant="titleMedium" style={styles.title}>
+          {title}
         </Text>
-        <Text variant="bodyMedium" style={styles.modalBody}>
-          Esta acción no se puede deshacer. ¿Deseas cancelar este pedido?
+        <Text variant="bodyMedium" style={styles.body}>
+          {message}
         </Text>
-        <View style={styles.modalActions}>
-          <Button mode="outlined" style={styles.modalBtn} textColor="#D6372D" onPress={onDismiss}>
-            No, mantener
+        <View style={styles.actions}>
+          <Button mode="outlined" style={styles.btn} textColor="#D6372D" onPress={onDismiss}>
+            {dismissLabel}
           </Button>
-          <Button mode="contained" style={styles.modalBtn} buttonColor="#D6372D" onPress={onConfirm}>
-            Sí, cancelar
+          <Button mode="contained" style={styles.btn} buttonColor="#D6372D" onPress={onConfirm}>
+            {confirmLabel}
           </Button>
         </View>
       </Modal>
@@ -38,20 +50,20 @@ const styles = StyleSheet.create({
     padding: 24,
     gap: 12,
   },
-  modalTitle: {
+  title: {
     fontWeight: '700',
     color: '#2d2d2d',
   },
-  modalBody: {
+  body: {
     color: '#6d6d6d',
   },
-  modalActions: {
+  actions: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
     gap: 12,
     marginTop: 8,
   },
-  modalBtn: {
+  btn: {
     borderRadius: 8,
     borderColor: '#D6372D',
   },

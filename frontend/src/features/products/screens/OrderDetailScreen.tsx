@@ -3,7 +3,7 @@ import { Image, ScrollView, StyleSheet, View } from 'react-native';
 import { Appbar, Button, Card, Divider, Text, useTheme } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { CancelOrderModal, OrderStatusBadge } from '../components';
+import { ConfirmModal, OrderStatusBadge } from '../components';
 
 const ORDER_ITEMS = [
   { id: '1', name: 'Enfrijoladas con pollo', unitPrice: '27.77', quantity: 9, total: 250 },
@@ -23,8 +23,12 @@ export function OrderDetailScreen() {
 
   return (
     <View style={styles.container}>
-      <CancelOrderModal
+      <ConfirmModal
         visible={cancelModalVisible}
+        title="¿Cancelar pedido?"
+        message="Esta acción no se puede deshacer. ¿Deseas cancelar este pedido?"
+        confirmLabel="Sí, cancelar"
+        dismissLabel="No, mantener"
         onDismiss={() => setCancelModalVisible(false)}
         onConfirm={() => {}}
       />
