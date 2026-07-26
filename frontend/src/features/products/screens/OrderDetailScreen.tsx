@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Image, ScrollView, StyleSheet, View } from 'react-native';
-import { Appbar, Button, Card, Divider, Text, useTheme } from 'react-native-paper';
+import { Appbar, Button, Card, Divider, Modal, Portal, Text, useTheme } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { OrderStatusBadge } from '../components';
@@ -17,11 +17,44 @@ export function OrderDetailScreen() {
   const { colors } = useTheme();
   const { status } = useLocalSearchParams<{ status?: string }>();
   const orderStatus = Array.isArray(status) ? status[0] : status ?? 'Entregado';
+  const [cancelModalVisible, setCancelModalVisible] = useState(false);
 
   const productsTotal = useMemo(() => '$ 1580.00', []);
 
   return (
     <View style={styles.container}>
+      <Portal>
+        <Modal
+          visible={cancelModalVisible}
+          onDismiss={() => setCancelModalVisible(false)}
+          contentContainerStyle={styles.modal}
+        >
+          <Text variant="titleMedium" style={styles.modalTitle}>
+            ¿Cancelar pedido?
+          </Text>
+          <Text variant="bodyMedium" style={styles.modalBody}>
+            Esta acción no se puede deshacer. ¿Deseas cancelar este pedido?
+          </Text>
+          <View style={styles.modalActions}>
+            <Button
+              mode="outlined"
+              style={styles.modalBtn}
+              textColor="#D6372D"
+              onPress={() => setCancelModalVisible(false)}
+            >
+              No, mantener
+            </Button>
+            <Button
+              mode="contained"
+              style={styles.modalBtn}
+              buttonColor="#D6372D"
+              onPress={() => {}}
+            >
+              Sí, cancelar
+            </Button>
+          </View>
+        </Modal>
+      </Portal>
       <Appbar.Header style={[styles.header, { backgroundColor: colors.primary }]}>
         <Appbar.BackAction color={colors.onPrimary} onPress={() => router.back()} />
         <Appbar.Content title="Detalle del pedido" color={colors.onPrimary} titleStyle={styles.headerTitle} />
@@ -120,7 +153,7 @@ export function OrderDetailScreen() {
             style={styles.buyAgainButton}
             labelStyle={styles.buyAgainLabel}
             buttonColor="#D6372D"
-            onPress={() => {}}
+            onPress={() => setCancelModalVisible(true)}
           >
             Cancelar
           </Button>
@@ -275,5 +308,29 @@ const styles = StyleSheet.create({
     fontSize: 17,
     paddingHorizontal: 8,
     paddingVertical: 4,
+  },
+  modal: {
+    backgroundColor: '#FFFFFF',
+    marginHorizontal: 24,
+    borderRadius: 12,
+    padding: 24,
+    gap: 12,
+  },
+  modalTitle: {
+    fontWeight: '700',
+    color: '#2d2d2d',
+  },
+  modalBody: {
+    color: '#6d6d6d',
+  },
+  modalActions: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: 12,
+    marginTop: 8,
+  },
+  modalBtn: {
+    borderRadius: 8,
+    borderColor: '#D6372D',
   },
 });
