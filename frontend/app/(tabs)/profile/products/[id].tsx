@@ -1,6 +1,6 @@
 import { ProductFormScreen } from '@/features/products/screens';
 
-export default function Register() {
+export default function EditProduct() {
     return (
         <ProductFormScreen />
     )

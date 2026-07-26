@@ -1,8 +1,20 @@
 import { View, StyleSheet, FlatList, Pressable } from 'react-native';
-import { Appbar, Divider } from 'react-native-paper';
+import { Appbar, Divider, useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import { SuperiorFilter, type FilterConfig } from '@/shared/components';
 import { OrderHistoryCard } from '../components';
+
+interface OrderHistoryItem {
+  id: string;
+  orderNumber: string;
+  vendor: string;
+  orderDate: string;
+  status: string;
+  itemCount: string;
+  total: string;
+  image: string;
+  vendorAvatar: string;
+}
 
 const ORDER_FILTERS: FilterConfig[] = [
   {
@@ -20,7 +32,7 @@ const ORDER_FILTERS: FilterConfig[] = [
 ];
 
 // Mock data
-const PRODUCTS = [
+const PRODUCTS: OrderHistoryItem[] = [
   { id: '1', orderNumber: '1024', vendor: 'Juárez', orderDate: '12/01/2026', status: 'Entregado', itemCount: '5', total: '1580.00', image: 'https://picsum.photos/80?1', vendorAvatar: 'https://picsum.photos/32?201' },
   { id: '2', orderNumber: '1025', vendor: 'Juárez', orderDate: '13/01/2026', status: 'En proceso', itemCount: '4', total: '1320.00', image: 'https://picsum.photos/80?2', vendorAvatar: 'https://picsum.photos/32?202' },
   { id: '3', orderNumber: '1026', vendor: 'Juárez', orderDate: '14/01/2026', status: 'Pendiente', itemCount: '6', total: '2010.00', image: 'https://picsum.photos/80?3', vendorAvatar: 'https://picsum.photos/32?203' },
@@ -37,9 +49,10 @@ const PRODUCTS = [
 
 export function OrderHistoryScreen() {
   const router = useRouter();
+  const { colors } = useTheme();
 
-  const renderItem = ({ item }) => (
-    <Pressable onPress={() => router.push(`/profile/products/${item.id}`)}>
+  const renderItem = ({ item }: { item: OrderHistoryItem }) => (
+    <Pressable onPress={() => router.push({ pathname: '/profile/order-detail', params: { id: item.id, status: item.status } })}>
       <OrderHistoryCard
         orderNumber={item.orderNumber}
         vendor={item.vendor}
@@ -56,9 +69,9 @@ export function OrderHistoryScreen() {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <Appbar.Header style={styles.header}>
-        <Appbar.BackAction onPress={() => router.back()} />
-        <Appbar.Content title="Mis compras" titleStyle={styles.headerTitle} />
+      <Appbar.Header style={[styles.header, { backgroundColor: colors.primary }]}>
+        <Appbar.BackAction color={colors.onPrimary} onPress={() => router.back()} />
+        <Appbar.Content title="Mis compras" color={colors.onPrimary} titleStyle={styles.headerTitle} />
       </Appbar.Header>
 
       <SuperiorFilter filters={ORDER_FILTERS} />
@@ -86,6 +99,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: '500',
+    color: '#FFFFFF',
     textAlign: 'center',
     marginRight: 40,
   },

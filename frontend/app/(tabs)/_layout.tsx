@@ -16,6 +16,13 @@ export default function TabsLayout() {
             screenOptions={{
                 headerShown: true,
                 headerTitleAlign: "center",
+                headerStyle: {
+                    backgroundColor: colors.primary,
+                },
+                headerTintColor: colors.onPrimary,
+                headerTitleStyle: {
+                    color: colors.onPrimary,
+                },
                 tabBarActiveTintColor: colors.primary,
                 tabBarInactiveTintColor: colors.secondary,
                 tabBarStyle: {
@@ -46,6 +53,7 @@ export default function TabsLayout() {
                 name="profile"
                 options={{
                     title: "Perfil",
+                    headerShown: false,
                     tabBarIcon: ({ color }) => (
                         <MaterialCommunityIcons name="account" size={24} color={color} />
                     ),
