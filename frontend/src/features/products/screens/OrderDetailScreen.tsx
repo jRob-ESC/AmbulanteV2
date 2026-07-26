@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
 import { Image, ScrollView, StyleSheet, View } from 'react-native';
-import { Appbar, Button, Card, Divider, Modal, Portal, Text, useTheme } from 'react-native-paper';
+import { Appbar, Button, Card, Divider, Text, useTheme } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { OrderStatusBadge } from '../components';
+import { CancelOrderModal, OrderStatusBadge } from '../components';
 
 const ORDER_ITEMS = [
   { id: '1', name: 'Enfrijoladas con pollo', unitPrice: '27.77', quantity: 9, total: 250 },
@@ -23,38 +23,11 @@ export function OrderDetailScreen() {
 
   return (
     <View style={styles.container}>
-      <Portal>
-        <Modal
-          visible={cancelModalVisible}
-          onDismiss={() => setCancelModalVisible(false)}
-          contentContainerStyle={styles.modal}
-        >
-          <Text variant="titleMedium" style={styles.modalTitle}>
-            ¿Cancelar pedido?
-          </Text>
-          <Text variant="bodyMedium" style={styles.modalBody}>
-            Esta acción no se puede deshacer. ¿Deseas cancelar este pedido?
-          </Text>
-          <View style={styles.modalActions}>
-            <Button
-              mode="outlined"
-              style={styles.modalBtn}
-              textColor="#D6372D"
-              onPress={() => setCancelModalVisible(false)}
-            >
-              No, mantener
-            </Button>
-            <Button
-              mode="contained"
-              style={styles.modalBtn}
-              buttonColor="#D6372D"
-              onPress={() => {}}
-            >
-              Sí, cancelar
-            </Button>
-          </View>
-        </Modal>
-      </Portal>
+      <CancelOrderModal
+        visible={cancelModalVisible}
+        onDismiss={() => setCancelModalVisible(false)}
+        onConfirm={() => {}}
+      />
       <Appbar.Header style={[styles.header, { backgroundColor: colors.primary }]}>
         <Appbar.BackAction color={colors.onPrimary} onPress={() => router.back()} />
         <Appbar.Content title="Detalle del pedido" color={colors.onPrimary} titleStyle={styles.headerTitle} />
@@ -308,29 +281,5 @@ const styles = StyleSheet.create({
     fontSize: 17,
     paddingHorizontal: 8,
     paddingVertical: 4,
-  },
-  modal: {
-    backgroundColor: '#FFFFFF',
-    marginHorizontal: 24,
-    borderRadius: 12,
-    padding: 24,
-    gap: 12,
-  },
-  modalTitle: {
-    fontWeight: '700',
-    color: '#2d2d2d',
-  },
-  modalBody: {
-    color: '#6d6d6d',
-  },
-  modalActions: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    gap: 12,
-    marginTop: 8,
-  },
-  modalBtn: {
-    borderRadius: 8,
-    borderColor: '#D6372D',
   },
 });
