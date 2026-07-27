@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { View, StyleSheet, Modal, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from 'react-native';
-import { TextInput, Text, useTheme } from 'react-native-paper';
+import { TextInput, Text, Switch, useTheme } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StockInput } from '@/shared/components';
 import { ProductImagePicker } from './ProductImagePicker';
@@ -13,6 +13,7 @@ export interface ProductFormData {
   description: string,
   additionalDetails: string,
   image: string | null;
+  isActive: boolean;
 }
 
 interface ProductFormProps {
@@ -145,6 +146,19 @@ export default function ProductForm({ data, onChange }: ProductFormProps){
                 numberOfLines={4}
                 style={styles.input}
             />
+
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => onChange('isActive', !data.isActive)}
+              style={[styles.switchRow, { borderColor: colors.outline, backgroundColor: colors.surface }]}
+            >
+              <Text variant="bodyLarge" style={{ color: colors.textPrimary }}>Producto activo</Text>
+              <Switch
+                value={data.isActive}
+                onValueChange={(val) => onChange('isActive', val)}
+                color={colors.primary}
+              />
+            </TouchableOpacity>
         </View>
     )
 }
@@ -217,5 +231,14 @@ const styles = StyleSheet.create({
   },
   optionLabel: {
     fontSize: 15,
+  },
+  switchRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderWidth: 1,
+    borderRadius: 4,
+    paddingHorizontal: 14,
+    marginBottom: 16,
   },
 });
