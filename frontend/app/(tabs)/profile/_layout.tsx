@@ -28,6 +28,7 @@ export default function ProfileLayout() {
             <Stack.Screen name="my-products" />
             <Stack.Screen name="order-history" />
             <Stack.Screen name="order-detail" />
+            <Stack.Screen name="sales-history" />
             <Stack.Screen name="products/register" />
             <Stack.Screen name="products/[id]" />
         </Stack>

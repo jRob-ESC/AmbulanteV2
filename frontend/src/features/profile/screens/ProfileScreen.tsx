@@ -61,7 +61,7 @@ export function ProfileScreen({user, onLogout}: ProfileScreenProps) {
         title="Historial de venta"
         left={props => <List.Icon {...props} icon="clock-outline" />}
         right={props => <List.Icon {...props} icon="chevron-right" />}
-        onPress={() => {}}
+        onPress={() => { router.push('/profile/sales-history') }}
       />
       <Divider />
       <List.Item
