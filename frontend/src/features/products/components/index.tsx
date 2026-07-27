@@ -4,3 +4,4 @@ export * from './OrderHistoryCard';
 export * from './OrderStatusBadge';
 export * from './ConfirmModal';
 export * from './VendorProductCard';
+export * from './SaleOrderHistoryCard';
