@@ -4,10 +4,12 @@ import { TextInput, HelperText, useTheme } from 'react-native-paper';
 
 interface AppTextInputProps extends React.ComponentProps<typeof TextInput> {
   errorMessage?: string;
+  containerStyle?: React.ComponentProps<typeof View>['style'];
 }
 
 export function AppTextInput({
   errorMessage,
+  containerStyle,
   style,
   ...props
 }: AppTextInputProps) {
@@ -15,7 +17,7 @@ export function AppTextInput({
   const hasError = !!errorMessage;
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyle]}>
       <TextInput
         mode="outlined"
         dense

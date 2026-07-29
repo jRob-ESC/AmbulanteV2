@@ -25,6 +25,7 @@ export default function ProfileLayout() {
                     headerShown: true,
                 }}
             />
+            <Stack.Screen name="edit-profile" />
             <Stack.Screen name="my-products" />
             <Stack.Screen name="order-history" />
             <Stack.Screen name="order-detail" />
