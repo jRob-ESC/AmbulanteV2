@@ -33,7 +33,7 @@ export function ProfileScreen({user, onLogout}: ProfileScreenProps) {
         title="Editar perfil"
         left={props => <List.Icon {...props} icon="pencil-outline" />}
         right={props => <List.Icon {...props} icon="chevron-right" />}
-        onPress={() => {}}
+        onPress={() => { router.push('/profile/edit-profile') }}
       />
       <Divider />
       <List.Item
