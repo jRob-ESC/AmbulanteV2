@@ -1,9 +1,11 @@
 import { ScrollView, View, StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
 import { UserAvatar } from "@/shared/components/UserAvatar";
 import { useActiveVendors } from "../hooks/useActiveVendors";
 import { API_URL } from "@/config/api";
 
 export function ActiveVendorsBar() {
+    const router = useRouter();
     const { data: vendors, isLoading } = useActiveVendors();
 
     if (isLoading) return null;
@@ -16,12 +18,13 @@ export function ActiveVendorsBar() {
                 contentContainerStyle={styles.scroll}
             >
                 {vendors?.map((vendor) => (
-                    <UserAvatar 
+                    <UserAvatar
                         key={vendor.id}
                         userId={vendor.id}
                         avatarUrl={vendor.imgUrl ? `${API_URL}${vendor.imgUrl}` : undefined}
                         size={56}
                         isActive
+                        onPress={() => router.push(`/vendors/${vendor.id}` as any)}
                     />
                 ))}
             </ScrollView>
