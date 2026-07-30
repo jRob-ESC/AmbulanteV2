@@ -8,13 +8,15 @@ type StockInputProps = {
   onChange: (value: number) => void;
   style?: ViewStyle;
   height?: number;
+  step?: number;
 };
 
 export function StockInput({
   value,
   onChange,
   style,
-  height
+  height,
+  step = 5,
 }: StockInputProps) {
   const theme = useTheme();
   const [rawText, setRawText] = useState(String(value));
@@ -54,7 +56,7 @@ export function StockInput({
           icon="minus"
           size={20}
           disabled={value <= 0}
-          onPress={() => handleAdjust(-5)}
+          onPress={() => handleAdjust(-step)}
           style={styles.btn}
         />
 
@@ -75,7 +77,7 @@ export function StockInput({
         <IconButton
           icon="plus"
           size={20}
-          onPress={() => handleAdjust(5)}
+          onPress={() => handleAdjust(step)}
           style={styles.btn}
         />
       </View>
