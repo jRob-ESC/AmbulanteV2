@@ -50,6 +50,15 @@ export default function TabsLayout() {
                     ),
                 }}
             />
+            <Tabs.Screen
+                name="cart"
+                options={{
+                    title: "Carrito",
+                    tabBarIcon: ({ color }) => (
+                        <MaterialCommunityIcons name="cart" size={24} color={color} />
+                    ),
+                }}
+            />
             <Tabs.Screen 
                 name="profile"
                 options={{
