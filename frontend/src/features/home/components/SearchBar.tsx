@@ -1,18 +1,21 @@
-import { StyleSheet } from "react-native";
-import { Searchbar, useTheme} from 'react-native-paper';
-import { useState } from "react"
+import { Pressable, StyleSheet } from "react-native";
+import { Searchbar, useTheme } from "react-native-paper";
+import { useRouter } from "expo-router";
 
 export function SearchBar() {
     const { colors } = useTheme();
-    const [query, setQuery] = useState("");
+    const router = useRouter();
 
     return (
-        <Searchbar
-            placeholder="Buscar productos o vendedores..."
-            value={query}
-            onChangeText={setQuery}
-            style={[styles.searchbar, { backgroundColor: colors.surface }]}
-        />
+        <Pressable onPress={() => router.push("/search" as any)}>
+            <Searchbar
+                placeholder="Buscar productos o vendedores..."
+                value=""
+                editable={false}
+                pointerEvents="none"
+                style={[styles.searchbar, { backgroundColor: colors.surface }]}
+            />
+        </Pressable>
     );
 }
 

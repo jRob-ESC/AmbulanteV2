@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Divider, Text, useTheme } from 'react-native-paper';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { AppButton, StockInput } from '@/shared/components';
+import { AppButton, StarRating, StockInput } from '@/shared/components';
 
 const MOCK_PRODUCT = {
     id: 1,
@@ -76,13 +75,7 @@ export function ProductDetailScreen() {
 
                     {/* Rating */}
                     <View style={styles.ratingRow}>
-                        <MaterialCommunityIcons name="star" size={18} color="#F59E0B" />
-                        <Text
-                            variant="bodyMedium"
-                            style={[styles.ratingValue, { color: colors.textPrimary }]}
-                        >
-                            {MOCK_PRODUCT.rating}
-                        </Text>
+                        <StarRating score={MOCK_PRODUCT.rating} size={18} />
                         <Text variant="bodySmall" style={{ color: colors.textSecondary }}>
                             ({MOCK_PRODUCT.reviewCount} reseñas)
                         </Text>
@@ -216,9 +209,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 4,
-    },
-    ratingValue: {
-        fontWeight: '700',
     },
     description: {
         lineHeight: 22,

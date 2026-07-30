@@ -1,5 +1,10 @@
 import { ScrollView, StyleSheet } from "react-native";
-import { ActiveVendorsBar, CategoryList, FeaturedProducts, SearchBar } from "@/features/home/components";
+import {
+    ActiveVendorsBar,
+    CategoryList,
+    FeaturedProducts,
+    SearchBar,
+} from "@/features/home/components";
 
 export default function HomeScreen() {
     return (
