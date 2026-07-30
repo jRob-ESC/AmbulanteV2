@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { ActivityIndicator, Text, useTheme } from "react-native-paper";
+import { ActivityIndicator, Searchbar, Text, useTheme } from "react-native-paper";
 import { API_URL } from "@/config/api";
 import { CategoryCard } from "@/features/home/components/CategoryCard";
 import { CATEGORIES } from "@/features/home/components/CategoryList";
@@ -9,6 +9,10 @@ import { SuperiorFilter, type FilterConfig } from "@/shared/components";
 import { ProductCard } from "../components/ProductCard";
 
 type SortOption = "default" | "price" | "nearby";
+
+type Props = {
+    search?: string;
+};
 
 const SORT_LABELS: Record<SortOption, string> = {
     default: "Ordenar",
@@ -25,10 +29,15 @@ const CATALOG_FILTERS: FilterConfig[] = [
     },
 ];
 
-export function ProductsCatalogScreen() {
+export function ProductsCatalogScreen({ search = "" }: Props) {
     const { colors } = useTheme();
+    const [query, setQuery] = useState(search);
     const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
     const [sortBy, setSortBy] = useState<SortOption>("default");
+
+    useEffect(() => {
+        setQuery(search);
+    }, [search]);
 
     const {
         data: products,
@@ -67,6 +76,13 @@ export function ProductsCatalogScreen() {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
+            <Searchbar
+                placeholder="Buscar productos o vendedores..."
+                value={query}
+                onChangeText={setQuery}
+                style={[styles.searchbar, { backgroundColor: colors.surface }]}
+            />
+
             <View style={styles.categorySection}>
                 <ScrollView
                     horizontal
@@ -147,6 +163,11 @@ const styles = StyleSheet.create({
     container: {
         paddingVertical: 16,
         gap: 20,
+    },
+    searchbar: {
+        marginHorizontal: 16,
+        borderRadius: 12,
+        elevation: 1,
     },
     categorySection: {
         gap: 12,
