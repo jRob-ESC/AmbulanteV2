@@ -6,9 +6,18 @@ type Props = {
     size?: number;
     onPress?: () => void;
     isActive?: boolean;
+    activeIndicatorSize?: number;
+    activeIndicatorColor?: string;
 };
 
-export function UserAvatar({ avatarUrl, size = 40, onPress, isActive }: Props) {
+export function UserAvatar({
+    avatarUrl,
+    size = 40,
+    onPress,
+    isActive,
+    activeIndicatorSize = 10,
+    activeIndicatorColor,
+}: Props) {
     const avatar = (
         <Image
             source={{ uri: avatarUrl ?? undefined }}
@@ -28,7 +37,19 @@ export function UserAvatar({ avatarUrl, size = 40, onPress, isActive }: Props) {
             )}
 
             {isActive && (
-                <View style={styles.activeIndicator} />
+                <View
+                    style={[
+                        styles.activeIndicator,
+                        {
+                            width: activeIndicatorSize,
+                            height: activeIndicatorSize,
+                            borderRadius: activeIndicatorSize / 2,
+                            ...(activeIndicatorColor
+                                ? { backgroundColor: activeIndicatorColor }
+                                : {}),
+                        },
+                    ]}
+                />
             )}
         </View>
     );
@@ -41,11 +62,8 @@ const styles = StyleSheet.create({
     },
     activeIndicator: {
         position: "absolute",
-        bottom: 2,
-        right: 2,
-        width: 10,
-        height: 10,
-        borderRadius: 5,
+        bottom: 0,
+        right: 0,
         backgroundColor: "#22C55E",
         borderWidth: 2,
         borderColor: "#FFFFFF",
