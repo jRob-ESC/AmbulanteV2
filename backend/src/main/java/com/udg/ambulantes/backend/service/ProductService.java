@@ -16,7 +16,7 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<HomeProductResponse> getRandomProducts(Pageable pageable) {
-        return productRepository.findRandomProducts(pageable);
+    public List<HomeProductResponse> getRandomProducts(Long categoryId, Pageable pageable) {
+        return productRepository.findRandomProducts(categoryId, pageable);
     }
 }
