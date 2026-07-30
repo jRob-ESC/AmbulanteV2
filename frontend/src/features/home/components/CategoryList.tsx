@@ -1,39 +1,23 @@
-import { View, ScrollView, StyleSheet, ActivityIndicator } from "react-native";
+import { View, ScrollView, StyleSheet } from "react-native";
 import { Text } from "react-native-paper";
 import { CategoryCard } from "./CategoryCard";
 import { useRouter } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useHomeCategories } from "../hooks/useHomeCategories";
 
-type Category = {
-    id: string;
-    label: string;
-    icon: React.ComponentProps<typeof MaterialCommunityIcons>["name"];
-};
+type CategoryIcon = React.ComponentProps<typeof MaterialCommunityIcons>["name"];
 
-// Maps the name of each category to an icon
-const CATEGORY_ICONS: Record<string, React.ComponentProps<typeof MaterialCommunityIcons>["name"]> = {
-    "Alimentos": "food",
-    "Ropa": "tshirt-crew",
-    "Calzado": "shoe-sneaker",
-    "Accesorios": "glasses",
-    "Electronicos": "controller",
-    "Recreativos": "robot",
-    "Otros": "shape",
-};
+export const CATEGORIES: { id: number; name: string; icon: CategoryIcon }[] = [
+    { id: 1, name: "Alimentos", icon: "hamburger" },
+    { id: 2, name: "Ropa", icon: "tshirt-crew-outline" },
+    { id: 3, name: "Calzado", icon: "shoe-sneaker" },
+    { id: 4, name: "Accesorios", icon: "glasses" },
+    { id: 5, name: "Electrónicos", icon: "devices" },
+    { id: 6, name: "Recreativos", icon: "gamepad-variant-outline" },
+    { id: 7, name: "Otros", icon: "shape-outline" },
+];
 
 export function CategoryList() {
     const router = useRouter();
-
-    const { data: categories, isLoading, error } = useHomeCategories();
-
-    if (isLoading) {
-        return (
-            <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" />
-            </View>
-        )
-    }
 
     return (
         <View style={styles.container}>
@@ -43,11 +27,11 @@ export function CategoryList() {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.scroll}
             >
-                {categories?.map((category) => (
+                {CATEGORIES.map((category) => (
                     <CategoryCard
                         key={category.id}
                         name={category.name}
-                        icon={CATEGORY_ICONS[category.name] ?? "shape"}
+                        icon={category.icon}
                         onPress={() => router.push(`/search?category=${category.id}` as any)}
                     />
                 ))}
@@ -67,9 +51,4 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         gap: 16,
     },
-        loadingContainer: {
-        paddingVertical: 32,
-        alignItems: "center",
-        justifyContent: "center",
-    }
 });

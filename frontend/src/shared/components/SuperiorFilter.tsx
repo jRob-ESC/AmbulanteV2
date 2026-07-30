@@ -129,23 +129,37 @@ function OptionSheet({ visible, title, options, selected, onSelect, onClose }: O
 
 type SuperiorFilterProps = {
   filters?: FilterConfig[];
+  values?: Record<string, string>;
+  onChange?: (key: string, value: string) => void;
 };
 
-export function SuperiorFilter({ filters = DEFAULT_FILTERS }: SuperiorFilterProps) {
-  const [values, setValues] = useState<Record<string, string>>(() =>
+export function SuperiorFilter({
+  filters = DEFAULT_FILTERS,
+  values: controlledValues,
+  onChange,
+}: SuperiorFilterProps) {
+  const [internalValues, setInternalValues] = useState<Record<string, string>>(() =>
     Object.fromEntries(filters.map((filter) => [filter.key, filter.defaultValue])),
   );
   const [openSheet, setOpenSheet] = useState<string | null>(null);
 
+  const values = controlledValues ?? internalValues;
   const activeFilter = filters.find((filter) => filter.key === openSheet);
+
+  const selectValue = (key: string, value: string) => {
+    if (!controlledValues) {
+      setInternalValues((prev) => ({ ...prev, [key]: value }));
+    }
+    onChange?.(key, value);
+  };
 
   return (
     <View style={styles.container}>
       {filters.map((filter) => (
         <FilterChip
           key={filter.key}
-          label={values[filter.key]}
-          active={values[filter.key] !== filter.defaultValue}
+          label={values[filter.key] ?? filter.defaultValue}
+          active={(values[filter.key] ?? filter.defaultValue) !== filter.defaultValue}
           onPress={() => setOpenSheet(filter.key)}
         />
       ))}
@@ -155,8 +169,8 @@ export function SuperiorFilter({ filters = DEFAULT_FILTERS }: SuperiorFilterProp
           visible
           title={activeFilter.title}
           options={activeFilter.options}
-          selected={values[activeFilter.key]}
-          onSelect={(value) => setValues((prev) => ({ ...prev, [activeFilter.key]: value }))}
+          selected={values[activeFilter.key] ?? activeFilter.defaultValue}
+          onSelect={(value) => selectValue(activeFilter.key, value)}
           onClose={() => setOpenSheet(null)}
         />
       )}

@@ -5,6 +5,7 @@ import com.udg.ambulantes.backend.model.Product;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,8 +26,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
            FROM Product p
            JOIN p.vendor u
            WHERE u.isAvailable = true
+             AND (:categoryId IS NULL OR p.category.id = :categoryId)
            ORDER BY function('RANDOM')
            """
     )
-    List<HomeProductResponse> findRandomProducts(Pageable pageable);
+    List<HomeProductResponse> findRandomProducts(@Param("categoryId") Long categoryId, Pageable pageable);
 }
