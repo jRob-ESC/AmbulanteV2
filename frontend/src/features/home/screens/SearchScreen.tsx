@@ -23,10 +23,11 @@ export function SearchScreen() {
             return;
         }
 
-        router.push({
-            pathname: "/products" as any,
-            params: { q: trimmed, entity },
-        });
+        if (entity === "vendors") {
+            router.push({ pathname: "/users" as any, params: { q: trimmed } });
+        } else {
+            router.push({ pathname: "/products" as any, params: { q: trimmed } });
+        }
     };
 
     return (

@@ -1,12 +1,12 @@
 import { useMemo, useState } from 'react';
 import { Image, ScrollView, StyleSheet, View } from 'react-native';
-import { Button, Card, Chip, Divider, Menu, Text, useTheme } from 'react-native-paper';
-import { AppButton, StockInput, UserAvatar } from '@/shared/components';
+import { Button, Card, Divider, Menu, Text, useTheme } from 'react-native-paper';
+import { AppButton, StockInput, UserAvatar, VendorTypeChip } from '@/shared/components';
 
 const SELLER = {
     id: 1,
     name: 'María González',
-    type: 'Ambulante',
+    type: 'mobile' as const,
     avatarUrl: 'https://i.pravatar.cc/160?img=47',
 };
 
@@ -154,18 +154,7 @@ export function CartDetailScreen() {
                                 {SELLER.name}
                             </Text>
                         </View>
-                        <Chip
-                            compact
-                            mode="outlined"
-                            icon="map-marker-account"
-                            style={{
-                                borderColor: colors.primary,
-                                backgroundColor: colors.surface,
-                            }}
-                            textStyle={[styles.sellerTypeText, { color: colors.primary }]}
-                        >
-                            {SELLER.type}
-                        </Chip>
+                        <VendorTypeChip type={SELLER.type} alignSelf="center" />
                     </Card.Content>
                 </Card>
 
@@ -299,10 +288,6 @@ const styles = StyleSheet.create({
     },
     sellerName: {
         fontWeight: '800',
-    },
-    sellerTypeText: {
-        fontSize: 12,
-        fontWeight: '700',
     },
     shippingCard: {
         borderRadius: 14,

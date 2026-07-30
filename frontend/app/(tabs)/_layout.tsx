@@ -86,6 +86,22 @@ export default function TabsLayout() {
                 }}
             />
             <Tabs.Screen
+                name="users/index"
+                options={{
+                    title: "Usuarios",
+                    href: null,
+                    headerLeft: () => (
+                        <MaterialCommunityIcons
+                            name="arrow-left"
+                            size={24}
+                            color={colors.onPrimary}
+                            style={{ marginLeft: 16 }}
+                            onPress={() => router.back()}
+                        />
+                    ),
+                }}
+            />
+            <Tabs.Screen
                 name="products/index"
                 options={{
                     title: "Productos",
