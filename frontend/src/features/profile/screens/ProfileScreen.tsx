@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { Divider, Icon, List, Menu, Text, useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import { UserAvatar } from '@/shared/components';
+import { ConfirmModal } from '@/features/products/components';
 import { User } from '../../auth/types'
 
 interface ProfileScreenProps {
@@ -15,9 +16,20 @@ export function ProfileScreen({user, onLogout}: ProfileScreenProps) {
   const router = useRouter();
   const [statusMenuVisible, setStatusMenuVisible] = useState(false);
   const [isVisibleAsConnected, setIsVisibleAsConnected] = useState(true);
+  const [deactivateModalVisible, setDeactivateModalVisible] = useState(false);
 
   return (
-    <ScrollView style={styles.container}>
+    <>
+      <ConfirmModal
+        visible={deactivateModalVisible}
+        title="¿Desactivar tu cuenta?"
+        message="Estás a punto de desactivar tu cuenta. Tu perfil y tus productos dejarán de estar visibles hasta que vuelvas a activarla."
+        dismissLabel="Cancelar"
+        confirmLabel="Desactivar"
+        onDismiss={() => setDeactivateModalVisible(false)}
+        onConfirm={() => setDeactivateModalVisible(false)}
+      />
+      <ScrollView style={styles.container}>
     {user && (
       <View style={styles.header}>
         <Menu
@@ -114,7 +126,7 @@ export function ProfileScreen({user, onLogout}: ProfileScreenProps) {
         titleStyle={{ color: colors.error }}
         left={props => <List.Icon {...props} icon="account-off-outline" color={colors.error} />}
         right={props => <List.Icon {...props} icon="chevron-right" color={colors.error} />}
-        onPress={() => {}}
+        onPress={() => setDeactivateModalVisible(true)}
       />
       <Divider />
       <List.Item
@@ -123,7 +135,8 @@ export function ProfileScreen({user, onLogout}: ProfileScreenProps) {
         left={props => <List.Icon {...props} icon="logout" color={colors.error} />}
         onPress={onLogout}
       />
-    </ScrollView>
+      </ScrollView>
+    </>
   );
 }
 
