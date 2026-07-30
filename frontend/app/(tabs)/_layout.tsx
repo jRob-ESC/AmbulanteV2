@@ -1,10 +1,11 @@
-import { Redirect, Tabs } from "expo-router"
+import { Redirect, Tabs, useRouter } from "expo-router"
 import { useTheme } from "react-native-paper"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { useAuthStore } from "@/features/auth/stores"
 
 export default function TabsLayout() {
     const { colors } = useTheme();
+    const router = useRouter();
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
     if (!isAuthenticated) {
@@ -49,6 +50,15 @@ export default function TabsLayout() {
                     ),
                 }}
             />
+            <Tabs.Screen
+                name="cart"
+                options={{
+                    title: "Carrito",
+                    tabBarIcon: ({ color }) => (
+                        <MaterialCommunityIcons name="cart" size={24} color={color} />
+                    ),
+                }}
+            />
             <Tabs.Screen 
                 name="profile"
                 options={{
@@ -56,6 +66,22 @@ export default function TabsLayout() {
                     headerShown: false,
                     tabBarIcon: ({ color }) => (
                         <MaterialCommunityIcons name="account" size={24} color={color} />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="products/[id]"
+                options={{
+                    title: "Detalle del producto",
+                    href: null,
+                    headerLeft: () => (
+                        <MaterialCommunityIcons
+                            name="arrow-left"
+                            size={24}
+                            color={colors.onPrimary}
+                            style={{ marginLeft: 16 }}
+                            onPress={() => router.back()}
+                        />
                     ),
                 }}
             />
