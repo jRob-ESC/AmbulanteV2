@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
-import { Image, ScrollView, StyleSheet, View } from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Card, Divider, Menu, Text, useTheme } from 'react-native-paper';
+import { useRouter } from 'expo-router';
 import { AppButton, StockInput, UserAvatar, VendorTypeChip } from '@/shared/components';
 
 const SELLER = {
@@ -42,6 +43,7 @@ const SHIPPING_OPTIONS = [
 
 export function CartDetailScreen() {
     const { colors } = useTheme();
+    const router = useRouter();
     const [quantities, setQuantities] = useState<Record<number, number>>({
         1: 2,
         2: 1,
@@ -138,11 +140,13 @@ export function CartDetailScreen() {
                     mode="elevated"
                 >
                     <Card.Content style={styles.sellerContent}>
-                        <UserAvatar
-                            userId={SELLER.id}
-                            avatarUrl={SELLER.avatarUrl}
-                            size={48}
-                        />
+                        <Pressable onPress={() => router.push(`/vendors/${SELLER.id}` as any)}>
+                            <UserAvatar
+                                userId={SELLER.id}
+                                avatarUrl={SELLER.avatarUrl}
+                                size={48}
+                            />
+                        </Pressable>
                         <View style={styles.sellerDetails}>
                             <Text variant="labelSmall" style={{ color: colors.textSecondary }}>
                                 Vendido por

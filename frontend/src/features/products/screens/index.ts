@@ -4,4 +4,5 @@ export * from './CartDetailScreen';
 export * from './ProductDetailScreen';
 export * from './ProductFormScreen';
 export * from './VendorProductsScreen';
+export * from './VendorCatalogScreen';
 export * from './SalesHistoryScreen';

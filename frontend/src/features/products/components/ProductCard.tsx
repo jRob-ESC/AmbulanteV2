@@ -10,7 +10,7 @@
             price: number;
             imageUrl?: string;
         };
-        vendor: {
+        vendor?: {
             id: number;
             avatarUrl?: string;
         };
@@ -32,14 +32,16 @@
                     />
                 )}
 
-                {/*Vendor profile image*/}
-                <View style={styles.avatarContainer}>
-                    <UserAvatar 
-                        userId={vendor.id}
-                        avatarUrl={vendor.avatarUrl}
-                        size={32}
-                    />
-                </View>
+                {vendor && (
+                    <View style={styles.avatarContainer}>
+                        <UserAvatar
+                            userId={vendor.id}
+                            avatarUrl={vendor.avatarUrl}
+                            size={32}
+                            onPress={() => router.push(`/vendors/${vendor.id}` as any)}
+                        />
+                    </View>
+                )}
 
                 <Card.Content style={styles.content}>
                     <Text variant="titleMedium" numberOfLines={1}>{product.name}</Text>
