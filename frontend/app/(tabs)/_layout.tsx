@@ -133,6 +133,20 @@ export default function TabsLayout() {
                     ),
                 }}
             />
+            <Tabs.Screen
+                name="vendors/[id]"
+                options={{
+                    href: null,
+                    headerShown: false,
+                }}
+            />
+            <Tabs.Screen
+                name="vendors/catalog"
+                options={{
+                    href: null,
+                    headerShown: false,
+                }}
+            />
         </Tabs>
     )
 }

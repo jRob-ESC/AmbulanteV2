@@ -1,4 +1,4 @@
-import { ProfileScreen } from "@/features/profile/screens";
+import { ProfileOptionsScreen } from "@/features/profile/screens";
 import { useAuthStore } from "@/features/auth/stores/authStore";
 import { router } from "expo-router";
 
@@ -12,6 +12,6 @@ export default function Profile() {
   };
 
   return (
-    <ProfileScreen user={user} onLogout={handleLogout} />
+    <ProfileOptionsScreen user={user} onLogout={handleLogout} />
   );
 }
