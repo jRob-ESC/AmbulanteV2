@@ -1,5 +1,5 @@
 import { CartDetailScreen } from '@/features/products/screens';
 
-export default function CartPage() {
+export default function Cart() {
     return <CartDetailScreen />;
 }

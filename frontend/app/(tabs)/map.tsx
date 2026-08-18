@@ -1,10 +1,5 @@
-import { View } from "react-native";
-import { Text } from "react-native-paper";
+import { MapScreen } from "@/features/map/screens";
 
 export default function Map() {
-    return (
-        <View>
-            <Text variant="displayLarge">Mapa</Text>
-        </View>
-    )
+    return <MapScreen />;
 }
