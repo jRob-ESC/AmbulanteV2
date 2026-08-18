@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { UserAvatar, StarRating, AppButton } from '@/shared/components';
 import { ProductCard } from '@/features/products/components/ProductCard';
+import { queueVendorSelection } from '@/features/map/pendingMapVendor';
 
 const MOCK_PRODUCTS = [
   { id: 1, name: 'Enfrijoladas con pollo', price: 55.00, imageUrl: 'https://picsum.photos/200?p=1' },
@@ -38,8 +39,13 @@ const MOCK_REVIEWS = [
 
 const MOCK_SCORE = 4.3;
 const MOCK_RATING_COUNT = 2000;
+const MOCK_MAP_VENDOR_ID = '1';
 
-export function ProfileScreen() {
+type Props = {
+  vendorId?: string;
+};
+
+export function ProfileScreen({ vendorId = MOCK_MAP_VENDOR_ID }: Props) {
   const { colors } = useTheme();
   const router = useRouter();
 
@@ -86,7 +92,10 @@ export function ProfileScreen() {
 
             <AppButton
               icon="map-marker-outline"
-              onPress={() => {}}
+              onPress={() => {
+                queueVendorSelection(vendorId);
+                router.push('/map');
+              }}
               style={styles.actionButton}
             >
               Ver en mapa
