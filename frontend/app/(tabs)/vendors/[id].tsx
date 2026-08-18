@@ -1,5 +1,8 @@
+import { useLocalSearchParams } from 'expo-router';
 import { ProfileScreen } from '@/features/profile/screens';
 
 export default function VendorProfilePage() {
-    return <ProfileScreen />;
+    const { id } = useLocalSearchParams<{ id?: string }>();
+
+    return <ProfileScreen vendorId={id} />;
 }
