@@ -84,7 +84,7 @@ export function ProfileScreen({ vendorId = MOCK_MAP_VENDOR_ID }: Props) {
           <View style={styles.actionsRow}>
             <AppButton
               icon="message-outline"
-              onPress={() => {}}
+              onPress={() => router.push(`/vendors/${vendorId}/chat` as any)}
               style={styles.actionButton}
             >
               Iniciar chat
