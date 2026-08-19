@@ -21,6 +21,7 @@ export default function VendorLayout() {
       <Stack.Screen name="index" />
       <Stack.Screen name="catalog" />
       <Stack.Screen name="reviews" />
+      <Stack.Screen name="chat" />
     </Stack>
   );
 }
