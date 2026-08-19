@@ -110,7 +110,7 @@ export function ProfileScreen({ vendorId = MOCK_MAP_VENDOR_ID }: Props) {
             <Text variant="titleMedium">Productos</Text>
             <Pressable
               style={styles.seeAll}
-              onPress={() => router.push('/vendors/catalog' as any)}
+              onPress={() => router.push(`/vendors/${vendorId}/catalog` as any)}
             >
               <Text variant="bodySmall" style={{ color: colors.primary, fontWeight: 'bold' }}>
                 Ver todo
@@ -176,7 +176,7 @@ export function ProfileScreen({ vendorId = MOCK_MAP_VENDOR_ID }: Props) {
             contentStyle={styles.moreReviewsContent}
             style={styles.moreReviewsButton}
             variant="secondary"
-            onPress={() => {}}
+            onPress={() => router.push(`/vendors/${vendorId}/reviews` as any)}
           >
             Ver más opiniones
           </AppButton>

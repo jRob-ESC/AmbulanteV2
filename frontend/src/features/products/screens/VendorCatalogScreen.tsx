@@ -18,7 +18,11 @@ const MOCK_PRODUCTS = [
   { id: 12, name: 'Enchiladas suizas',         price: 70.00, imageUrl: 'https://picsum.photos/200?p=12' },
 ];
 
-export function VendorCatalogScreen() {
+type Props = {
+  vendorId?: string;
+};
+
+export function VendorCatalogScreen({ vendorId: _vendorId }: Props) {
   const { colors } = useTheme();
   const router = useRouter();
 

@@ -140,13 +140,6 @@ export default function TabsLayout() {
                     headerShown: false,
                 }}
             />
-            <Tabs.Screen
-                name="vendors/catalog"
-                options={{
-                    href: null,
-                    headerShown: false,
-                }}
-            />
         </Tabs>
     )
 }
